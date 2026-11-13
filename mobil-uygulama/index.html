@@ -1,0 +1,720 @@
+<!doctype html><html><head><meta charset=utf8><meta name="robots" content="noindex,nofollow"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Halkbank Entegre Kripto Deneyimi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: full-viewport slides, sized by one unit --u (1px of a 1920x1080 design); spare height flows into the phone screens. Single light look, Halkbank blue. */
+:root{
+  --blue:#225592; --ink:#0F172B; --muted:#475569; --soft:#F1F5F9; --paper:#FFFFFF;
+  --orange:#F26F21; --orange-ink:#D35A12; --orange-soft:#FEECE1; --blue-soft:#E6EEF7; --tint:#DCE8F7;
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+  --u:min(calc(100vw / 1920), calc(100vh / 1080));
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased}
+.deck{position:relative;width:100%;height:100%;overflow:hidden;cursor:default}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;box-sizing:border-box;
+  padding-block:calc(56*var(--u)) calc(44*var(--u));
+  padding-left:max(16px, env(safe-area-inset-left,0px), calc(140*var(--u)));
+  padding-right:max(16px, env(safe-area-inset-right,0px), calc(140*var(--u)));
+  background:var(--paper);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.slide.is-on{opacity:1;visibility:visible;transition:opacity .45s ease}
+
+/* header */
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:calc(40*var(--u));flex:none}
+.hd h1{margin:0;font-size:calc(56*var(--u));font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--blue);text-wrap:balance}
+.hd p{margin:calc(10*var(--u)) 0 0;font-size:calc(30*var(--u));font-weight:700;line-height:1.2;color:var(--ink)}
+.logo{flex:none;width:calc(172*var(--u));height:auto;margin-top:calc(10*var(--u))}
+.body{flex:1;min-height:0;display:flex;align-items:center;gap:calc(56*var(--u));margin-top:calc(36*var(--u))}
+
+/* text column */
+.txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:calc(30*var(--u))}
+.app-tag{display:flex;flex-wrap:wrap;align-items:center;gap:calc(14*var(--u))}
+.app-tag img{width:calc(64*var(--u));height:calc(64*var(--u));border-radius:calc(16*var(--u));box-shadow:0 calc(6*var(--u)) calc(14*var(--u)) rgba(15,23,43,.18)}
+.app-tag .chip{align-self:center}
+.chip{align-self:flex-start;font-size:calc(22*var(--u));font-weight:700;letter-spacing:.08em;padding:calc(8*var(--u)) calc(20*var(--u));border-radius:999px;white-space:nowrap}
+.chip.hb{color:var(--orange-ink);background:var(--orange-soft)}
+.chip.hk{color:var(--blue);background:var(--blue-soft)}
+.chip.both{color:var(--ink);background:var(--soft)}
+.pts{margin:0;padding-left:1.1em;font-size:calc(28*var(--u));line-height:1.75;color:var(--ink)}
+.n3 .pts{font-size:calc(26*var(--u));line-height:1.7}
+.pts li::marker{color:var(--blue)}
+ol.pts li::marker{font-weight:700}
+
+/* phones on content slides */
+.n1{--ph:min(calc(100vh - 287*var(--u)), calc((100vw - 1096*var(--u)) / 0.4798))}
+.n2{--ph:min(calc(100vh - 287*var(--u)), calc((100vw - 1024*var(--u)) / 2 / 0.4798))}
+.n3{--ph:min(calc(100vh - 287*var(--u)), calc((100vw - 812*var(--u)) / 3 / 0.4798))}
+.phones{flex:none;display:flex;gap:calc(48*var(--u))}
+.n3 .phones{gap:calc(28*var(--u))}
+.n1 .phones{width:calc(560*var(--u));justify-content:center}
+.ph{flex:none;margin:0;display:flex;flex-direction:column;align-items:center;gap:calc(12*var(--u))}
+.ph img{display:block;height:var(--ph);width:auto;max-width:none;aspect-ratio:1428/2976;object-fit:contain}
+.ph figcaption{font-size:calc(24*var(--u));font-weight:600;line-height:1.3;color:var(--muted);text-align:center}
+.ph figcaption.hb{color:var(--orange-ink)} .ph figcaption.hk{color:var(--blue)}
+
+/* cover */
+.cover{background:var(--blue);color:#FFFFFF;flex-direction:row;align-items:center;gap:calc(40*var(--u));
+  padding-left:max(16px, env(safe-area-inset-left,0px), calc(103*var(--u)));
+  --ph:min(calc(100vh - 230*var(--u)), calc((100vw - 1330*var(--u)) / 2 / 0.4798))}
+.cover .c-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:calc(14*var(--u))}
+.cover .c-txt .sub{margin-top:calc(18*var(--u))}
+.cover .eyebrow{margin:0;font-size:calc(36*var(--u));font-weight:400;letter-spacing:.02em}
+.cover h1{margin:0;white-space:nowrap;font-size:calc(96*var(--u));font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.cover .sub{margin:0;font-size:calc(34*var(--u));font-weight:400;letter-spacing:.02em;line-height:1.3;white-space:nowrap}
+.cover .c-ph{flex:none;display:flex;gap:calc(36*var(--u));align-items:center}
+.cover .c-ph img{height:var(--ph);width:auto;max-width:none;aspect-ratio:1428/2976;object-fit:contain}
+.cover .c-ph img:first-child{transform:translateY(calc(-30*var(--u)))}
+.cover .c-ph img:last-child{transform:translateY(calc(40*var(--u)))}
+.cover .c-logo{position:absolute;left:max(16px, env(safe-area-inset-left,0px), calc(103*var(--u)));bottom:calc(80*var(--u));width:calc(172*var(--u))}
+
+/* two-app sequence */
+.seq{--ph:min(calc(100vh - 332*var(--u)), calc((100vw - 1192*var(--u)) / 2 / 0.4798))}
+.seq-row{flex:1;min-height:0;display:flex;align-items:center;justify-content:space-between;gap:calc(40*var(--u));margin-top:calc(36*var(--u))}
+.mid{flex:none;display:flex;align-items:center;gap:calc(16*var(--u))}
+.cards{flex:none;width:calc(360*var(--u));display:flex;flex-direction:column;gap:calc(14*var(--u));transition:opacity .45s ease}
+.card{display:flex;align-items:center;gap:calc(14*var(--u));box-sizing:border-box;min-height:calc(100*var(--u));padding:calc(14*var(--u)) calc(18*var(--u));
+  background:var(--soft);border-radius:calc(16*var(--u));transition:background-color .4s ease,transform .4s ease,box-shadow .4s ease,opacity .4s ease}
+.card .ico{flex:none;width:calc(32*var(--u));height:calc(32*var(--u));color:var(--orange-ink);transition:color .4s ease}
+.cards.hk .card .ico{color:var(--blue)}
+.card b{display:block;font-size:calc(26*var(--u));font-weight:700;line-height:1.2;color:var(--ink);transition:color .4s ease}
+.card span{display:block;font-size:calc(24*var(--u));line-height:1.3;color:var(--muted);transition:color .4s ease}
+.card.on{background:var(--blue);transform:scale(1.05);box-shadow:0 calc(16*var(--u)) calc(36*var(--u)) rgba(34,85,146,.3)}
+.card.on b,.cards.hk .card.on .ico,.card.on .ico{color:#FFFFFF}
+.card.on span{color:var(--tint)}
+.seq[data-side="hb"] .cards.hb .card:not(.on),.seq[data-side="hk"] .cards.hk .card:not(.on){opacity:.6}
+.seq[data-side="hb"] .cards.hk,.seq[data-side="hk"] .cards.hb{opacity:.35}
+.seq[data-side="hb"] .app.hk,.seq[data-side="hk"] .app.hb{opacity:.4}
+.app{position:relative;flex:none;display:flex;flex-direction:column;align-items:center;gap:calc(12*var(--u));transition:opacity .45s ease;isolation:isolate}
+.app::before{content:"";position:absolute;z-index:-1;left:50%;top:44%;width:calc(var(--ph) * 1.05);height:calc(var(--ph) * 1.05);transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(34,85,146,.12) 0%, rgba(34,85,146,0) 62%);pointer-events:none}
+.phone{position:relative;height:var(--ph);aspect-ratio:1428/2976}
+.phone img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:contain;opacity:0;transition:opacity .45s ease}
+.phone img.on{opacity:1}
+.pill{box-sizing:border-box;width:calc(var(--ph) * 0.4798);height:calc(76*var(--u));display:flex;align-items:center;justify-content:center;gap:calc(14*var(--u));
+  background:transparent}
+.pill img{width:calc(56*var(--u));height:calc(56*var(--u));border-radius:calc(14*var(--u));box-shadow:0 calc(6*var(--u)) calc(14*var(--u)) rgba(15,23,43,.18)}
+.pill b{font-size:calc(28*var(--u));font-weight:700;color:var(--ink)}
+.arrows{flex:none;width:calc(80*var(--u));display:flex;flex-direction:column;align-items:center;gap:calc(30*var(--u));margin-bottom:calc(88*var(--u))}
+.arrows svg{width:calc(80*var(--u));height:auto;display:block}
+
+/* screen tours: one large phone in focus, the next screens wait beside it and slide in */
+.tour{--ph:min(calc(100vh - 252*var(--u)), calc((100vw - 900*var(--u)) / 1.5 / 0.4798));--pw:calc(var(--ph) * 0.4798);--g:calc(44*var(--u))}
+.tour-body{flex:1;min-height:0;display:flex;align-items:center;gap:calc(64*var(--u));margin-top:calc(28*var(--u))}
+.tour-txt{flex:none;width:calc(600*var(--u));display:flex;flex-direction:column;gap:calc(34*var(--u))}
+.tinfos{display:grid}
+.tinfo{grid-area:1/1;display:flex;flex-direction:column;gap:calc(16*var(--u));opacity:0;transform:translateY(calc(14*var(--u)));transition:opacity .35s ease,transform .45s ease}
+.tinfo.on{opacity:1;transform:none;transition-delay:.12s}
+.tinfo h2{margin:0;font-size:calc(50*var(--u));font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--ink);text-wrap:balance}
+.tinfo .lead{margin:0;font-size:calc(28*var(--u));font-weight:500;line-height:1.35;color:var(--muted)}
+.tinfo .pts{margin-top:calc(8*var(--u))}
+.tdots{display:flex;gap:calc(8*var(--u))}
+.tdots i{width:calc(40*var(--u));height:calc(6*var(--u));border-radius:999px;background:var(--soft);transition:background-color .4s ease,width .4s ease}
+.tdots i.done{background:var(--tint)}
+.tdots i.on{width:calc(64*var(--u));background:var(--blue)}
+.tour[data-tour="hb"] .tdots i.on{background:var(--orange)}
+.tour-stage{position:relative;flex:1;align-self:stretch;min-width:0;overflow:hidden;
+  margin-right:calc(-1 * max(16px, env(safe-area-inset-right,0px), calc(140*var(--u))))}
+.titem{position:absolute;left:calc(150*var(--u));top:50%;margin:0;width:var(--pw);height:var(--ph);transform-origin:left center;opacity:0;
+  transform:translate(calc(var(--pw) * 1.9 + var(--g) * .4), -50%) scale(.45);
+  transition:transform .7s cubic-bezier(.22,.7,.2,1),opacity .5s ease}
+.titem img{display:block;width:100%;height:100%;max-width:none;object-fit:contain}
+.titem::after{content:"";position:absolute;inset:0;background:var(--paper);opacity:0;transition:opacity .5s ease}
+.titem[data-d="1"]::after{opacity:.5}
+.titem[data-d="2"]::after{opacity:.72}
+.titem[data-d="-1"]{transform:translate(calc(-1 * (var(--pw) * .78 + var(--g))), -50%) scale(.78);opacity:0}
+.titem[data-d="0"]{transform:translate(0,-50%);opacity:1}
+.titem[data-d="1"]{transform:translate(calc(var(--pw) + var(--g) * .4), -50%) scale(.8);opacity:1;z-index:2}
+.titem[data-d="2"]{transform:translate(calc(var(--pw) * 1.55 + var(--g) * .4), -50%) scale(.6);opacity:1;z-index:1}
+
+/* live prototype phones: the real app runs inside the slot; side previews stay as images */
+.live{position:absolute;left:calc(150*var(--u));top:50%;width:var(--pw);height:var(--ph);transform:translateY(-50%);overflow:hidden;z-index:3;opacity:0;transition:opacity .4s ease}
+.live.ready{opacity:1}
+.live iframe{position:absolute;left:0;top:0;width:700px;height:1010px;border:0;background:transparent;color-scheme:normal;transform-origin:0 0}
+.has-live .titem[data-d="0"],.has-live .titem[data-d="-1"]{opacity:0}
+.solo .live{left:calc(220*var(--u))}
+.gsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(14*var(--u))}
+.gsteps li{display:flex;align-items:center;gap:calc(18*var(--u));padding:calc(18*var(--u)) calc(22*var(--u));border-radius:calc(16*var(--u));background:var(--soft);
+  font-size:calc(30*var(--u));font-weight:600;color:var(--ink);transition:background-color .4s ease,color .4s ease,transform .4s ease,box-shadow .4s ease}
+.gsteps li span{flex:none;width:calc(44*var(--u));height:calc(44*var(--u));border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--blue);font-size:calc(22*var(--u));font-weight:700}
+.gsteps li.on{background:var(--blue);color:#FFFFFF;transform:scale(1.03);box-shadow:0 calc(16*var(--u)) calc(36*var(--u)) rgba(34,85,146,.3)}
+.gsteps li.tinfo{grid-area:auto;flex-direction:row;opacity:1;transform:none;transition-delay:0s}
+.gsteps li.tinfo.on{transform:scale(1.03)}
+
+/* closing cover: same as the platform deck's last page */
+.closing{background:var(--blue);overflow:hidden;justify-content:center}
+.cl-logo{position:absolute;z-index:1;left:13.6vw;top:50%;width:26.8vw;height:auto;transform:translateY(-50%)}
+.cl-ph img{position:absolute;display:block;width:23.98vw;height:49.98vw;max-width:none;transform:rotate(-15deg);transform-origin:0 0}
+
+.cover{overflow:hidden}
+.cover .c-txt{position:relative;z-index:1}
+.cv-ph{position:absolute;inset:0;pointer-events:none;transform:translateX(4vw)}
+
+/* duty split */
+.split{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(32*var(--u));margin-top:calc(36*var(--u))}
+.split-row{flex:1;min-height:0;display:flex;gap:calc(48*var(--u))}
+.duty{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:calc(22*var(--u));background:var(--soft);padding:calc(48*var(--u)) calc(56*var(--u));border-radius:calc(28*var(--u))}
+.duty .app-id{display:flex;align-items:center;gap:calc(18*var(--u))}
+.duty .app-id img{width:calc(72*var(--u));height:calc(72*var(--u));border-radius:calc(18*var(--u));box-shadow:0 calc(6*var(--u)) calc(14*var(--u)) rgba(15,23,43,.18)}
+.duty h3{margin:0;font-size:calc(48*var(--u));font-weight:700;line-height:1.15;color:var(--blue)}
+.duty .lead{margin:0;font-size:calc(28*var(--u));font-weight:500;color:var(--muted);line-height:1.35}
+.band{flex:none;background:var(--blue);color:#FFFFFF;border-radius:calc(20*var(--u));padding:calc(26*var(--u));text-align:center;font-size:calc(28*var(--u));font-weight:600}
+.band i{font-style:normal;opacity:.6;margin:0 .9em}
+
+/* demo */
+.qr{flex:none;display:flex;flex-direction:column;align-items:center;gap:calc(20*var(--u));background:var(--soft);padding:calc(40*var(--u));border-radius:calc(28*var(--u))}
+.qr svg{width:calc(400*var(--u));height:calc(400*var(--u));display:block}
+.qr b{font-size:calc(30*var(--u));font-weight:700;color:var(--blue)}
+.qr span{font-size:calc(24*var(--u));font-weight:500;color:var(--muted);user-select:all}
+
+/* controls */
+.hud{position:fixed;right:max(16px, env(safe-area-inset-right,0px));bottom:max(14px, env(safe-area-inset-bottom,0px));z-index:5;display:flex;align-items:center;gap:6px;
+  padding:6px;border-radius:999px;background:rgba(15,23,43,.78);color:#FFFFFF;font:600 13px/1 var(--font);opacity:0;transition:opacity .3s ease}
+.hud.show,.hud:focus-within{opacity:1}
+.hud button{all:unset;cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:999px}
+.hud button:hover{background:rgba(255,255,255,.14)}
+.hud button:focus-visible{outline:2px solid #FFFFFF;outline-offset:1px}
+.hud svg{width:18px;height:18px}
+.hud .count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.bar{position:fixed;left:0;bottom:0;height:3px;background:var(--orange);z-index:4;transition:width .35s ease;opacity:.85}
+.notes{position:fixed;left:50%;bottom:64px;transform:translateX(-50%);z-index:6;width:min(900px, calc(100vw - 32px));box-sizing:border-box;padding:16px 20px;border-radius:14px;
+  background:rgba(15,23,43,.9);color:#FFFFFF;font:400 16px/1.5 var(--font)}
+.notes b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+@media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-db" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></g></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M6 17v-6"/><path d="M11 17V6"/><path d="M16 17v-4"/><path d="M20 17V9"/></g></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></g></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3l-5.5 2.9 1-6.2L3 9.6l6.2-.9z"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></g></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></g></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></g></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></g></symbol>
+    <symbol id="i-pulse" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M3 12h4l3-8 4 16 3-8h4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></g></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></g></symbol>
+  </defs>
+</svg>
+
+<main class="deck" id="deck" aria-live="polite">
+
+  <!-- 1 cover -->
+  <section class="slide cover" data-notes="Ana platform sunumuna ek olarak: Halkbank ve Halk Kripto uygulamalarının birlikte nasıl çalışacağını gösteren yaklaşım. Teknik akış anlatımı, canlı prototip ile desteklenecek.">
+    <div class="c-txt">
+      <p class="eyebrow">HALKBANK</p>
+      <h1>Bankadan Kriptoya</h1>
+      <p class="sub">KRİPTO VARLIK BORSASI UYGULAMA YAKLAŞIMI</p>
+    </div>
+    <div class="cl-ph cv-ph" aria-hidden="true">
+      <img src="img/k_trade.png" alt="" style="left:calc(54.6vw + -14.958vw);top:calc(50% + -42.778vw)">
+      <img src="img/k_markets.png" alt="" style="left:calc(54.6vw + 8.108vw);top:calc(50% + -66.041vw)">
+      <img src="img/k_coin.png" alt="" style="left:calc(54.6vw + 21.385vw);top:calc(50% + -16.489vw)">
+      <img src="img/k_home.png" alt="" style="left:calc(54.6vw + -1.111vw);top:calc(50% + 8.899vw)">
+    </div>
+    <img class="c-logo" src="img/logo_white.png" alt="Ahlatcı Holding">
+  </section>
+
+  <!-- 2 two apps, 13 steps -->
+  <section class="slide seq" id="seq" data-steps="13" data-side="">
+    <header class="hd"><div><h1>İki Uygulama, Tek Deneyim</h1><p>Halkbank’ta takip ve para transferi, Halk Kripto’da kripto işlemleri</p></div><img class="logo" src="img/logo_dark.png" alt="Ahlatcı Holding"></header>
+    <div class="seq-row">
+      <div class="cards hb">
+        <div class="card" data-k="1"><svg class="ico"><use href="#i-db"/></svg><div><b>Kripto bakiyesi</b><span>Nakit ve kripto bakiye</span></div></div>
+        <div class="card" data-k="2"><svg class="ico"><use href="#i-chart"/></svg><div><b>Kripto piyasaları</b><span>Anlık fiyat ve değişim</span></div></div>
+        <div class="card" data-k="3"><svg class="ico"><use href="#i-search"/></svg><div><b>Kripto detay</b><span>Grafik ve fiyat aralığı</span></div></div>
+        <div class="card" data-k="4"><svg class="ico"><use href="#i-star"/></svg><div><b>Kripto varlıklarım</b><span>Adet, değer, kâr/zarar</span></div></div>
+        <div class="card" data-k="5"><svg class="ico"><use href="#i-send"/></svg><div><b>Para gönderme</b><span>Halk Kripto hesabına</span></div></div>
+        <div class="card" data-k="6"><svg class="ico"><use href="#i-link"/></svg><div><b>Al/Sat geçişi</b><span>Tek dokunuşla işlem</span></div></div>
+      </div>
+      <div class="mid">
+      <div class="app hb">
+        <div class="phone" data-app="hb">
+          <img class="on" data-k="0" src="img/hb_home_clean.png" alt="Halkbank uygulaması ana sayfa">
+          <img data-k="1" src="img/hb_kripto.png" alt="Halkbank: Kripto İşlemleri ekranında Halk Kripto bakiyesi">
+          <img data-k="2" src="img/hb_piyasalar.png" alt="Halkbank: Kripto Piyasaları ekranı">
+          <img data-k="3" src="img/hb_coin.png" alt="Halkbank: BTC/TL detay ve grafik">
+          <img data-k="4" src="img/hb_varliklar.png" alt="Halkbank: Kripto Varlıklarım ekranı">
+          <img data-k="5" src="img/hb_gonder.png" alt="Halkbank: Halk Kripto’ya Para Gönder ekranı">
+          <img data-k="6" src="img/hb_redirect.png" alt="Halkbank: Halk Kripto’ya yönlendirme penceresi">
+        </div>
+        <div class="pill"><img src="img/icon_hb.png" alt=""><b>Halkbank</b></div>
+      </div>
+      <div class="arrows" aria-hidden="true">
+        <svg viewBox="0 0 80 36"><polygon fill="#225592" points="0,11 50,11 50,0 80,18 50,36 50,25 0,25"/></svg>
+        <svg viewBox="0 0 80 36"><polygon fill="#F26F21" points="80,11 30,11 30,0 0,18 30,36 30,25 80,25"/></svg>
+      </div>
+      <div class="app hk">
+        <div class="phone" data-app="hk">
+          <img class="on" data-k="0" src="img/k_home.png" alt="Halk Kripto uygulaması ana sayfa">
+          <img data-k="7" src="img/k_trade.png" alt="Halk Kripto: Kripto Al/Sat ekranı">
+          <img data-k="8" src="img/k_depd.png" alt="Halk Kripto: USDT yatırma, ağ ve adres">
+          <img data-k="9" src="img/k_dep.png" alt="Halk Kripto: Yatır ekranı, TL ve USD">
+          <img data-k="10" src="img/k_assets.png" alt="Halk Kripto: Varlıklarım ekranı">
+          <img data-k="11" src="img/k_history.png" alt="Halk Kripto: İşlemler ekranı">
+          <img data-k="12" src="img/k_profile.png" alt="Halk Kripto: Profil ve Ayarlar ekranı">
+        </div>
+        <div class="pill"><img src="img/icon_hk.png" alt=""><b>Halk Kripto</b></div>
+      </div>
+      </div>
+      <div class="cards hk">
+        <div class="card" data-k="7"><svg class="ico"><use href="#i-zap"/></svg><div><b>Kripto al / sat</b><span>Tutar, özet, onay</span></div></div>
+        <div class="card" data-k="8"><svg class="ico"><use href="#i-globe"/></svg><div><b>Kripto yatır / çek</b><span>Ağ seçimi, adres ve QR</span></div></div>
+        <div class="card" data-k="9"><svg class="ico"><use href="#i-shield"/></svg><div><b>Para yatır / çek</b><span>İtibari para: TL ve USD</span></div></div>
+        <div class="card" data-k="10"><svg class="ico"><use href="#i-pulse"/></svg><div><b>Varlıklarım</b><span>Portföy ve dağılım</span></div></div>
+        <div class="card" data-k="11"><svg class="ico"><use href="#i-book"/></svg><div><b>İşlem geçmişi</b><span>Arama, dekont, ekstre</span></div></div>
+        <div class="card" data-k="12"><svg class="ico"><use href="#i-lock"/></svg><div><b>Profil ve güvenlik</b><span>Hesap, limit ve ayarlar</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 halkbank tour -->
+  <section class="slide tour has-live" data-steps="9" data-tour="hb">
+    <header class="hd"><div><h1>Halkbank Uygulaması</h1><p>Kripto bilgileri Halkbank’tan çıkmadan</p></div><img class="logo" src="img/logo_dark.png" alt="Ahlatcı Holding"></header>
+    <div class="tour-body">
+      <div class="tour-txt">
+        <div class="app-tag"><img src="img/icon_hb.png" alt=""><span class="chip hb">HALKBANK UYGULAMASI</span></div>
+        <div class="tinfos">
+        <div class="tinfo on" data-notes="Müşteri her gün kullandığı Halkbank uygulamasına kendi şifresiyle girer. Halk Kripto için ayrı üyelik gerekmez; aynı şifre Halk Kripto uygulamasında da geçerlidir."><h2>Giriş</h2><p class="lead">Halkbank şifresiyle, tek üyelik</p><ul class="pts"><li>Halk Kripto için ayrı üyelik yok</li><li>Aynı şifre iki uygulamada geçerli</li></ul></div>
+        <div class="tinfo" data-notes="Kullanıcı Halkbank ana sayfasındaki Kripto İşlemleri kutucuğuna dokunur. Halk Kripto hesabı Tüm Hesaplar menüsünde de görünür."><h2>Kripto Girişi</h2><p class="lead">Halkbank ana sayfasından tek dokunuşla</p><ul class="pts"><li>Ana sayfada Kripto İşlemleri kutucuğu</li><li>Tüm Hesaplar’da Halk Kripto hesabı</li><li>Halkbank uygulamasından çıkmadan</li></ul></div>
+        <div class="tinfo" data-notes="Bu ekranda Halk Kripto hesabının bakiyesi, kâr/zararı, kısayollar ve piyasa özeti görünür."><h2>Kripto İşlemleri</h2><p class="lead">Halk Kripto hesabı Halkbank içinde</p><ul class="pts"><li>Halk Kripto hesap bakiyesi ve kâr/zarar</li><li>Al/Sat, Para Gönder, Varlıklarım kısayolları</li><li>Kripto piyasaları özeti</li><li>TL veya USD gösterim seçimi</li></ul></div>
+        <div class="tinfo" data-notes="Tüm kripto piyasası Halkbank içinden izlenir: arama, filtre, anlık fiyat ve günlük değişim."><h2>Kripto Piyasaları</h2><p class="lead">Tüm piyasa Halkbank içinden izlenir</p><ul class="pts"><li>Kripto varlık listesi</li><li>Arama ve TL, USD, Tümü filtresi</li><li>Anlık fiyat ve 24 saatlik değişim</li></ul></div>
+        <div class="tinfo" data-notes="Detay ekranında fiyat grafiği ve piyasa bilgileri var. Al ve Sat düğmeleri kullanıcıyı Halk Kripto’ya, seçtiği kripto ile yönlendirir."><h2>Kripto Detay</h2><p class="lead">Grafik, fiyat ve işleme geçiş</p><ul class="pts"><li>Detaylı fiyat grafiği</li><li>Özet ve Durumum sekmeleri</li><li>Fiyat aralığı ve piyasa bilgileri</li><li>Al ve Sat ile Halk Kripto’ya geçiş</li></ul></div>
+        <div class="tinfo" data-notes="Halk Kripto hesabındaki nakit ve kripto varlıklar Halkbank içinde görünür. Halk Kripto’da yapılan işlemler buraya anında yansır."><h2>Kripto Varlıklarım</h2><p class="lead">Halk Kripto bakiyeleri Halkbank içinde</p><ul class="pts"><li>Toplam kripto ve nakit bakiye</li><li>Olası kâr/zarar takibi</li><li>Kripto varlıklar, adet ve değer</li><li>Her varlık için Al ve Sat</li></ul></div>
+        <div class="tinfo" data-notes="Halkbank’ın kendi transfer akışı: gönderen hesap seçilir, tutar girilir."><h2>Para Gönder</h2><p class="lead">Halk Kripto hesabına, tanıdık akışla</p><ul class="pts"><li>Vadesiz TL veya USD hesabından</li><li>Hesap seçimi ve tutar girişi</li><li>Kullanılabilir bakiye görünür</li></ul></div>
+        <div class="tinfo" data-notes="Onay öncesi özet: gönderen hesap, alıcı Halk Kripto hesabı, tarih, tutar ve ücret."><h2>İşlem Özeti</h2><p class="lead">Onay öncesi son kontrol</p><ul class="pts"><li>Gönderen ve alıcı hesap</li><li>Tarih, tutar ve ücret</li><li>Vazgeç veya Onayla</li></ul></div>
+        <div class="tinfo" data-notes="Sonuç ekranında referans numarası ve dekont var. Gönderilen para Halk Kripto’da yatırma olarak görünür; Halkbank hesap hareketlerine de düşer."><h2>İşlem Sonuç</h2><p class="lead">Dekont ve anlık güncelleme</p><ul class="pts"><li>Referans numarası ve dekont</li><li>Bakiye ve hareketler anında güncellenir</li><li>Halk Kripto’da yatırma olarak görünür</li></ul></div>
+        </div>
+        <div class="tdots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="tour-stage">
+      <figure class="titem" data-i="0" data-d="0"><img src="img/hb_login.png" alt="Halkbank giriş ekranı"></figure>
+      <figure class="titem" data-i="1" data-d="1"><img src="img/hb_home_clean.png" alt="Halkbank ana sayfa"></figure>
+      <figure class="titem" data-i="2" data-d="2"><img src="img/hb_kripto.png" alt="Kripto İşlemleri ekranı"></figure>
+      <figure class="titem" data-i="3" data-d="3"><img src="img/hb_piyasalar.png" alt="Kripto Piyasaları ekranı"></figure>
+      <figure class="titem" data-i="4" data-d="3"><img src="img/hb_coin.png" alt="BTC/TL detay ekranı"></figure>
+      <figure class="titem" data-i="5" data-d="3"><img src="img/hb_varliklar.png" alt="Kripto Varlıklarım ekranı"></figure>
+      <figure class="titem" data-i="6" data-d="3"><img src="img/hb_gonder.png" alt="Halk Kripto’ya Para Gönder ekranı"></figure>
+      <figure class="titem" data-i="7" data-d="3"><img src="img/hb_ozet.png" alt="İşlem Özeti ekranı"></figure>
+      <figure class="titem" data-i="8" data-d="3"><img src="img/hb_sonuc.png" alt="İşlem Sonuç ekranı"></figure>
+      <div class="live" data-live="hb"><iframe src="proto/index.html?pres" title="Halkbank uygulaması, canlı prototip" tabindex="-1" scrolling="no"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 gecis -->
+  <section class="slide tour has-live solo" data-steps="4" data-tour="gecis">
+    <header class="hd"><div><h1>Uygulamalar Arası Geçiş</h1><p>İşlem anında Halk Kripto’ya yönlendirme</p></div><img class="logo" src="img/logo_dark.png" alt="Ahlatcı Holding"></header>
+    <div class="tour-body">
+      <div class="tour-txt">
+        <div class="app-tag"><img src="img/icon_hb.png" alt=""><img src="img/icon_hk.png" alt=""><span class="chip both">HALKBANK + HALK KRİPTO</span></div>
+        <ol class="gsteps">
+          <li class="tinfo on" data-notes="Kullanıcı Halkbank’ta Al veya Sat’a dokunur; kısa bir bilgilendirme ile Halk Kripto’ya yönlendirilir."><span>1</span>Al/Sat ile yönlendirme</li>
+          <li class="tinfo" data-notes="Halk Kripto’ya Halkbank şifresiyle girilir. Şifre bir kez girildikten sonra belli bir süre tekrar istenmez."><span>2</span>Halkbank şifresiyle giriş</li>
+          <li class="tinfo" data-notes="Halk Kripto açılır, işlem burada yapılır. Halkbank’taki güncel bakiye burada da görünür."><span>3</span>Halk Kripto’da işlem</li>
+          <li class="tinfo" data-notes="Sol üstteki “◀ Halkbank” ile her ekrandan tek dokunuşla Halkbank’a dönülür. Not: prototipte iki uygulama tek linkte; gerçekte iki ayrı uygulama."><span>4</span>Tek dokunuşla geri dönüş</li>
+        </ol>
+      </div>
+      <div class="tour-stage">
+      <div class="live" data-live="gecis"><iframe src="proto/index.html?pres" title="Halkbank ve Halk Kripto geçişi, canlı prototip" tabindex="-1" scrolling="no"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 halk kripto tour -->
+  <section class="slide tour has-live" data-steps="11" data-tour="hk">
+    <header class="hd"><div><h1>Halk Kripto Uygulaması</h1><p>İşlemler Halkbank deneyimiyle aynı yapıda</p></div><img class="logo" src="img/logo_dark.png" alt="Ahlatcı Holding"></header>
+    <div class="tour-body">
+      <div class="tour-txt">
+        <div class="app-tag"><img src="img/icon_hk.png" alt=""><span class="chip hk">HALK KRİPTO UYGULAMASI</span></div>
+        <div class="tinfos">
+        <div class="tinfo on" data-notes="Halk Kripto, Halkbank’ın kart, liste ve hareket yapısını kullanır. Halkbank kullanıcısı yeni bir uygulama öğrenmek zorunda kalmaz."><h2>Ana Sayfa</h2><p class="lead">Halkbank ile aynı kart ve liste yapısı</p><ul class="pts"><li>Toplam Varlığım kartı</li><li>Al/Sat, Yatır, Çek hızlı işlemleri</li><li>Günün Özeti ve son işlemlerim</li><li>Yükselenler, Düşenler, Favorilerim</li></ul></div>
+        <div class="tinfo" data-notes="Piyasalar ekranında günün yükselenleri, tüm kriptolar ve favoriler; arama ve sıralama ile."><h2>Piyasalar</h2><p class="lead">Fiyatlar ve favoriler tek listede</p><ul class="pts"><li>Günün yükselenleri</li><li>Tüm Kriptolar ve Favorilerim</li><li>Arama, sıralama ve liste düzeni</li></ul></div>
+        <div class="tinfo" data-notes="Al/Sat akışı Halkbank’taki döviz alış/satış ekranının birebir karşılığı."><h2>Kripto Al/Sat</h2><p class="lead">Halkbank döviz alış/satış akışıyla aynı</p><ul class="pts"><li>Alış ve Satış sekmeleri</li><li>Kripto ve hesap seçimi</li><li>Kripto ya da para cinsinden tutar</li><li>Tüm bakiyeyi kullan, Tümünü sat</li></ul></div>
+        <div class="tinfo" data-notes="Özet ekranında işlem türü, hesaplar, fiyat, miktar, komisyon ve toplam tutar görünür."><h2>İşlem Özeti</h2><p class="lead">Onay öncesi tüm bilgiler</p><ul class="pts"><li>İşlem türü ve hesaplar</li><li>Alış fiyatı ve kripto miktarı</li><li>Komisyon ve toplam tutar</li></ul></div>
+        <div class="tinfo" data-notes="İşlem onay anındaki fiyattan gerçekleşir; sonuç ekranında işlem fiyatı, dekont ve varlıklara geçiş var."><h2>İşlem Sonuç</h2><p class="lead">Dekont ve varlıklara geçiş</p><ul class="pts"><li>İşlem fiyatı ve işlem numarası</li><li>Dekont görüntüleme</li><li>Varlıklarıma Git, Yeni Al/Sat İşlemi</li></ul></div>
+        <div class="tinfo" data-notes="Para yatırmada “Halkbank’tan Para Gönder” Halkbank’taki gönderim ekranını ilgili hesap seçili açar."><h2>Yatır</h2><p class="lead">Para ve kripto yatırma</p><ul class="pts"><li>TL ve USD yatırma: IBAN, müşteri no</li><li>Halkbank’tan Para Gönder kısayolu</li><li>Kripto yatırma seçenekleri</li></ul></div>
+        <div class="tinfo" data-notes="Kripto yatırmada ağ seçimi, adres, QR ve uyarılar var. Prototipteki adresler ve QR kodlar gerçek değil."><h2>Kripto Yatırma</h2><p class="lead">Ağ, adres ve QR</p><ul class="pts"><li>Ağ seçimi</li><li>Adres ve QR kod</li><li>Minimum tutar ve tahmini süre</li><li>Ağ uyarıları</li></ul></div>
+        <div class="tinfo" data-notes="Para çekme kayıtlı Halkbank hesabına yapılır. Kripto çekmede adres, ağ, beyan ve SMS onayı var."><h2>Çek</h2><p class="lead">Para ve kripto çekme</p><ul class="pts"><li>Para çekme: kayıtlı Halkbank hesabı</li><li>Kripto çekme: adres, ağ, beyan, SMS</li><li>Varlık bazında kullanılabilir bakiye</li></ul></div>
+        <div class="tinfo" data-notes="Varlıklarım ekranı sayısal cüzdan ve dağılım grafiği sunar."><h2>Varlıklarım</h2><p class="lead">Portföy ve dağılım</p><ul class="pts"><li>Toplam, nakit, kripto ve kâr/zarar</li><li>Varlık dağılımı grafiği</li><li>Sıfır bakiyeli varlıkları gizleme</li></ul></div>
+        <div class="tinfo" data-notes="İşlemler ekranı Halkbank hesap hareketleri düzeninde; detaylı arama, dekont ve hesap ekstresi buradan alınır."><h2>İşlemler</h2><p class="lead">Halkbank hesap hareketleri düzeninde</p><ul class="pts"><li>Son işlemler ve tekrarla</li><li>Detaylı arama: tarih, işlem, durum</li><li>Hesap ekstresi ve dekont</li></ul></div>
+        <div class="tinfo" data-notes="Kişisel bilgiler Halkbank kayıtlarından gelir. Limitler, bildirim tercihleri, güvenlik ve ayarlar Halk Kripto içinden yönetilir."><h2>Profil ve Ayarlar</h2><p class="lead">Hesap yönetimi Halk Kripto içinde</p><ul class="pts"><li>Kişisel bilgiler Halkbank kayıtlarından</li><li>Günlük ve aylık işlem limitleri</li><li>İletişim tercihleri ve fiyat alarmları</li><li>Güvenlik, cihazlar ve sözleşmeler</li></ul></div>
+        </div>
+        <div class="tdots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="tour-stage">
+      <figure class="titem" data-i="0" data-d="0"><img src="img/k_home.png" alt="Halk Kripto ana sayfa"></figure>
+      <figure class="titem" data-i="1" data-d="1"><img src="img/k_markets.png" alt="Halk Kripto piyasalar ekranı"></figure>
+      <figure class="titem" data-i="2" data-d="2"><img src="img/k_trade.png" alt="Kripto Al/Sat ekranı"></figure>
+      <figure class="titem" data-i="3" data-d="3"><img src="img/k_tsum.png" alt="Alım işlem özeti"></figure>
+      <figure class="titem" data-i="4" data-d="3"><img src="img/k_tres.png" alt="Alım işlem sonucu"></figure>
+      <figure class="titem" data-i="5" data-d="3"><img src="img/k_dep.png" alt="Yatır ekranı"></figure>
+      <figure class="titem" data-i="6" data-d="3"><img src="img/k_depd.png" alt="USDT yatırma adres ekranı"></figure>
+      <figure class="titem" data-i="7" data-d="3"><img src="img/k_wd.png" alt="Çek ekranı"></figure>
+      <figure class="titem" data-i="8" data-d="3"><img src="img/k_assets.png" alt="Varlıklarım ekranı"></figure>
+      <figure class="titem" data-i="9" data-d="3"><img src="img/k_history.png" alt="İşlemler ekranı"></figure>
+      <figure class="titem" data-i="10" data-d="3"><img src="img/k_profile.png" alt="Profil ve Ayarlar ekranı"></figure>
+      <div class="live" data-live="hk"><iframe src="proto/kripto/index.html?skiplogin" title="Halk Kripto uygulaması, canlı prototip" tabindex="-1" scrolling="no"></iframe></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 -->
+  <section class="slide n2" data-notes="Halkbank’taki Kripto İşlemleri ekranı ile Halk Kripto ana sayfası aynı yapıda: bakiye kartı, kısayollar ve liste düzeni. Müşteri iki uygulama arasında geçerken aynı deneyimi yaşar. Hesap ve bakiye bilgisi ortaktır; bir uygulamada yapılan işlem diğerinde anında görünür.">
+    <header class="hd"><div><h1>Aynı Uygulama Deneyimi</h1><p>İki uygulama, tek tasarım dili ve ortak veri</p></div><img class="logo" src="img/logo_dark.png" alt="Ahlatcı Holding"></header>
+    <div class="body">
+      <div class="txt"><div class="app-tag"><img src="img/icon_hb.png" alt=""><img src="img/icon_hk.png" alt=""><span class="chip both">HALKBANK + HALK KRİPTO</span></div>
+        <ul class="pts"><li>Aynı tasarım dili ve ekran yapısı</li><li>Ortak müşteri ve hesap bilgisi</li><li>Bakiyeler iki tarafta anlık eşleşir</li><li>Her işlem iki uygulamada da görünür</li></ul></div>
+      <div class="phones">
+        <figure class="ph"><img src="img/hb_kripto.png" alt="Halkbank uygulamasında Kripto İşlemleri ekranı"><figcaption class="hb">Halkbank: Kripto İşlemleri</figcaption></figure>
+        <figure class="ph"><img src="img/k_home.png" alt="Halk Kripto uygulamasında ana sayfa"><figcaption class="hk">Halk Kripto: Ana Sayfa</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- closing -->
+  <section class="slide closing" data-notes="Teşekkürler. Sorular için hazırız.">
+    <img class="cl-logo" src="img/logo_white.png" alt="Ahlatcı Holding">
+    <div class="cl-ph" aria-hidden="true">
+      <img src="img/k_trade.png" alt="" style="left:calc(54.6vw + -14.958vw);top:calc(50% + -42.778vw)">
+      <img src="img/k_markets.png" alt="" style="left:calc(54.6vw + 8.108vw);top:calc(50% + -66.041vw)">
+      <img src="img/k_coin.png" alt="" style="left:calc(54.6vw + 21.385vw);top:calc(50% + -16.489vw)">
+      <img src="img/k_home.png" alt="" style="left:calc(54.6vw + -1.111vw);top:calc(50% + 8.899vw)">
+    </div>
+  </section>
+</main>
+
+<div class="bar" id="bar"></div>
+<div class="hud" id="hud" role="toolbar" aria-label="Sunum kontrolleri">
+  <button type="button" id="prev" aria-label="Önceki"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m15 5-7 7 7 7"/></svg></button>
+  <span class="count" id="count">1 / 27</span>
+  <button type="button" id="next" aria-label="Sonraki"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg></button>
+  <button type="button" id="notesBtn" aria-label="Konuşma notları (N)"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M5 6h14M5 12h14M5 18h9"/></svg></button>
+  <button type="button" id="fs" aria-label="Tam ekran (F)"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+<div class="notes" id="notes" hidden><b>Konuşma notu</b><span id="notesText"></span></div>
+
+<script>
+(function(){
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var seq = document.getElementById('seq');
+  var seqNotes = [
+    'Halkbank’ın yanında ikinci bir uygulama: Halk Kripto. Kullanıcı kripto bilgilerini Halkbank’tan çıkmadan görür, işlem anında Halk Kripto açılır, sol üstteki “◀ Halkbank” ile geri döner. Garanti BBVA ve Garanti Kripto benzeri, sektörde bilinen bir yaklaşım.',
+    'Halkbank: Kripto İşlemleri ekranında Halk Kripto hesabının nakit ve kripto bakiyesi, olası kâr/zarar görünür.',
+    'Halkbank: kripto varlıkların anlık fiyatı ve günlük değişimi, arama ve TL, USD filtresiyle.',
+    'Halkbank: kripto detay ekranı. Detaylı fiyat grafiği, fiyat aralığı ve piyasa bilgileri. Al ve Sat buradan Halk Kripto’ya geçirir.',
+    'Halkbank: Kripto Varlıklarım. Halk Kripto’daki varlıklar adet, değer ve kâr/zarar ile görünür; her varlıkta Al ve Sat var.',
+    'Halkbank: Halk Kripto’ya para gönderme. Vadesiz TL veya USD hesabından, Halkbank’ın tanıdık transfer akışıyla; Halk Kripto’da yatırma olarak görünür.',
+    'Halkbank: Al veya Sat’a dokununca kısa bir bilgilendirme çıkar ve Halk Kripto seçilen kripto ile açılır. Sonraki adımlar Halk Kripto tarafı.',
+    'Halk Kripto: Kolay Al/Sat. Halkbank döviz alış/satış akışıyla aynı: kripto ve hesap seçimi, tutar, özet, onay ve dekont.',
+    'Halk Kripto: kripto yatırma ve çekme. Ağ seçimi, adres, QR, uyarılar; çekmede beyan ve SMS onayı.',
+    'Halk Kripto: itibari para yatırma ve çekme. TL ve USD; yatırmada IBAN ve “Halkbank’tan Para Gönder” kısayolu, çekmede kayıtlı Halkbank hesabı.',
+    'Halk Kripto: Varlıklarım. Toplam, nakit, kripto ve kâr/zarar; varlık dağılımı grafiği.',
+    'Halk Kripto: İşlemler. Son işlemler, tekrarla, detaylı arama, dekont ve hesap ekstresi.',
+    'Halk Kripto: Profil ve güvenlik. Kişisel bilgiler, günlük ve aylık limitler, cihazlar, sözleşmeler, bildirim ve iletişim tercihleri.'
+  ];
+  var steps = [];
+  slides.forEach(function(s, si){
+    var n = parseInt(s.getAttribute('data-steps') || '1', 10);
+    for (var k = 0; k < n; k++) steps.push({ s: si, k: k });
+  });
+  var cur = -1;
+  var bar = document.getElementById('bar'), count = document.getElementById('count');
+  var notes = document.getElementById('notes'), notesText = document.getElementById('notesText');
+
+  function setStep(k){
+    seq.setAttribute('data-side', k === 0 ? '' : (k <= 6 ? 'hb' : 'hk'));
+    seq.querySelectorAll('.card').forEach(function(c){ c.classList.toggle('on', +c.getAttribute('data-k') === k); });
+    seq.querySelectorAll('.phone').forEach(function(p){
+      var app = p.getAttribute('data-app');
+      var want = (app === 'hb' && k >= 1 && k <= 6) || (app === 'hk' && k >= 7) ? k : 0;
+      p.querySelectorAll('img').forEach(function(im){ im.classList.toggle('on', +im.getAttribute('data-k') === want); });
+    });
+  }
+  function setTour(t, k){
+    t.querySelectorAll('.titem').forEach(function(it){
+      var d = +it.getAttribute('data-i') - k;
+      it.setAttribute('data-d', String(Math.max(-1, Math.min(3, d))));
+    });
+    t.querySelectorAll('.tinfo').forEach(function(el, i){ el.classList.toggle('on', i === k); });
+    t.querySelectorAll('.tdots i').forEach(function(el, i){ el.classList.toggle('on', i === k); el.classList.toggle('done', i < k); });
+  }
+  /* ---------- live prototype phones (same-origin iframes, driven by the deck and synced back) ---------- */
+  var BG_CSS = 'html,body{background:transparent!important}body::before,body::after{display:none!important}body.framed #device{box-shadow:0 0 0 12px #111,0 0 0 14px #3a3f47!important}';
+  var HK_FADE = '.screen.k-push{transform:none!important;opacity:0;transition:opacity .3s ease!important}.screen.k-push.open{opacity:1}'
+    + '.screen:not(.k-push){transition:visibility 0s linear .3s!important}.screen.active:not(.k-push){transition:none!important;animation:__fin .3s ease}'
+    + '@keyframes __fin{from{opacity:0}to{opacity:1}}';
+  var HB_HELP = "function __go(path){if(busy)return false;var s=stack,last=path[path.length-1];if(redirOpen)closeRedirect();if(sheetOpen)closeSheet();if(s.join()===path.join())return true;var pre=path.slice(0,-1);"
+    + "if(s.length>path.length&&path.every(function(p,i){return s[i]===p;})){popTo(last);return true;}"
+    + "if(s.length===pre.length&&pre.every(function(p,i){return s[i]===p;})){push(last);return true;}"
+    + "s.forEach(function(id){var e=el(id);e.classList.remove('active','under','dim','anim','moving');e.style.transform='';});stack.length=0;"
+    + "if(!pre.length){stack.push(last);el(last).classList.add('active');onEnter(last);return true;}"
+    + "pre.forEach(function(p){stack.push(p);});var t=pre[pre.length-1];onEnter(t);el(t).classList.add('active');push(last);return true;}"
+    + "function __top(){return stack[stack.length-1];}"
+    + "function __splash(){var o=el('splash');if(o&&!o.classList.contains('gone'))return;if(o)o.remove();if(redirOpen)closeRedirect();if(appOpen){el('switch').classList.remove('show','open');el('device').classList.remove('app-out');appOpen=false;}"
+    + "var sp=document.createElement('section');sp.className='screen anim-fade';sp.id='splash';el('login').parentNode.insertBefore(sp,el('login'));showLogin();"
+    + "setTimeout(function(){sp.classList.add('gone');setTimeout(function(){sp.remove();},600);},1700);}"
+    + "function __tap(){var b=$('#kripto [data-redirect]');if(!b)return;var r=b.getBoundingClientRect(),d=el('device').getBoundingClientRect(),t=document.createElement('i');"
+    + "t.style.cssText='position:absolute;z-index:60;left:'+(r.left-d.left+r.width/2-22)+'px;top:'+(r.top-d.top+r.height/2-22)+'px;width:44px;height:44px;border-radius:50%;background:rgba(5,118,184,.35);pointer-events:none;transform:scale(.3);opacity:1;transition:transform .45s ease,opacity .45s ease';"
+    + "el('device').appendChild(t);b.style.transition='transform .15s';b.style.transform='scale(.94)';requestAnimationFrame(function(){requestAnimationFrame(function(){t.style.transform='scale(1.6)';t.style.opacity='0';});});"
+    + "setTimeout(function(){b.style.transform='';},170);setTimeout(function(){t.remove();},600);}"
+    + "function __skip(){var sp=el('splash');if(sp)sp.remove();el('login').classList.remove('active');try{$('#kripto-tile').classList.remove('hint','nudge')}catch(e){}}";
+  var HK_HELP = "function __ktop(){return stack.length?stack[stack.length-1]:current;}"
+    + "function __kpush(id){if(id==='k-trade')return openTrade('btc','TL','buy');if(id==='k-depd'){dep.k='usdt';dep.net=1;dep.fiat=null;return openDepDetail();}pushScreen(id);}"
+    + "function __kgo(tab,pu){closeSheet();var same=function(n){return pu.slice(0,n).every(function(p,i){return stack[i]===p;});};"
+    + "if(current===tab&&stack.join()===pu.join())return;"
+    + "if(current===tab&&stack.length===pu.length-1&&same(stack.length)){__kpush(pu[pu.length-1]);return;}"
+    + "if(current===tab&&stack.length>pu.length&&same(pu.length)){while(stack.length>pu.length)popScreen();return;}"
+    + "popAll();showTab(tab);pu.forEach(__kpush);}";
+
+  var lives = {}, navLock = 0;
+  function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+  function ev(w, code){ try { return w.eval(code); } catch (e) { return undefined; } }
+  function liveOf(sl){ for (var n in lives) if (lives[n].slide === sl) return lives[n]; return null; }
+  function fitLive(L){ var s = L.box.clientHeight / 992; L.frame.style.transform = 'scale(' + s + ') translate(-112px,-9px)'; }
+  async function retry(w, code, tries){
+    for (var i = 0; i < (tries || 15); i++){ if (ev(w, code) !== false) return; await sleep(120); }
+  }
+  function kwin(w){ try { var f = w.document.getElementById('kripto-frame'); return f ? f.contentWindow : null; } catch (e) { return null; } }
+
+  function hookKeys(w){
+    try {
+      var d = w.document; if (!d || d.__deckKeys) return; d.__deckKeys = 1;
+      d.addEventListener('keydown', function(e){
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        var t = e.target, typing = t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && t.id !== 'kl-pass' && t.id !== 'lg-pass', k = e.key;
+        if (k === 'PageDown' || (!typing && k === 'ArrowRight')) { e.preventDefault(); e.stopPropagation(); next(); }
+        else if (k === 'PageUp' || (!typing && k === 'ArrowLeft')) { e.preventDefault(); e.stopPropagation(); prev(); }
+        else if (!typing && (k === 'f' || k === 'F')) toggleFs();
+        else if (!typing && (k === 'n' || k === 'N')) toggleNotes();
+      }, true);
+    } catch (e) {}
+  }
+
+  var NAV = {
+    hb: [
+      function(w){
+        if (ev(w, "el('login').classList.contains('active')") && !ev(w, "!!el('splash')")) return;
+        navLock = Date.now() + 1200; ev(w, '__splash()');
+      },
+      async function(w){
+        if (ev(w, "el('login').classList.contains('active')")) {
+          navLock = Date.now() + 2000;
+          ev(w, "var s=el('splash');if(s)s.remove();var i=$('#lg-pass');i.value='123456';i.dispatchEvent(new Event('input'));");
+          await sleep(950);
+        } else ev(w, '__skip()');
+        return retry(w, "__go(['home'])");
+      },
+      function(w){ return retry(w, "__go(['home','kripto'])"); },
+      function(w){ return retry(w, "__go(['home','kripto','piyasalar'])"); },
+      function(w){ if (ev(w, '__top()') === 'coin') return; return retry(w, "(cd.k='btc',cd.cur='TL',cd.range='1S',setSeg('ozet'),__go(['home','kripto','piyasalar','coin']))"); },
+      function(w){ return retry(w, "__go(['home','kripto','varliklar'])"); },
+      function(w){ return retry(w, "__go(['home','kripto','gonder'])"); },
+      async function(w){
+        var t = ev(w, '__top()'); if (t === 'ozet') return;
+        if (t !== 'sonuc' && t !== 'dekont') ev(w, "if(!parseAmt(state.amt)){state.amt='25000';updateAmount();}state.last=null;");
+        return retry(w, "__go(['home','kripto','gonder','ozet'])");
+      },
+      async function(w){
+        var t = ev(w, '__top()'); if (t === 'sonuc') return;
+        if (t === 'dekont') return retry(w, "__go(['home','kripto','gonder','ozet','sonuc'])");
+        if (t !== 'ozet') { navLock = Date.now() + 2600; await NAV.hb[7](w); await sleep(520); }
+        ev(w, "$('#onayla').click()");
+      }
+    ],
+    hk: [
+      function(w){ ev(w, "__kgo('k-home',[])"); },
+      function(w){ ev(w, "__kgo('k-markets',[])"); },
+      function(w){ ev(w, "__kgo(current,['k-trade'])"); },
+      async function(w){
+        var t = ev(w, '__ktop()'); if (t === 'k-tsum') return;
+        if (t === 'k-tres') { ev(w, 'popScreen()'); return; }
+        if (t !== 'k-trade') { ev(w, "__kgo(current,['k-trade'])"); await sleep(450); }
+        ev(w, "if(!tr.amt){$('#kt-amt').value='10000';onAmt();}goSummary();");
+      },
+      async function(w){
+        var t = ev(w, '__ktop()'); if (t === 'k-tres') return;
+        if (t !== 'k-tsum') { navLock = Date.now() + 2600; await NAV.hk[3](w); await sleep(500); }
+        ev(w, 'confirmTrade()');
+      },
+      function(w){ ev(w, "__kgo(current,['k-dep'])"); },
+      function(w){ ev(w, "__kgo(current,['k-dep','k-depd'])"); },
+      function(w){ ev(w, "__kgo(current,['k-wd'])"); },
+      function(w){ ev(w, "__kgo('k-assets',[])"); },
+      function(w){ ev(w, "__kgo('k-history',[])"); },
+      function(w){ ev(w, "__kgo(current,['k-profile'])"); }
+    ],
+    gecis: [
+      async function(w){
+        navLock = Date.now() + 3200;
+        if (ev(w, 'appOpen')) { ev(w, 'closeKriptoApp()'); await sleep(560); }
+        if (ev(w, 'redirOpen')) { ev(w, 'closeRedirect()'); await sleep(320); }
+        ev(w, 'state.kAuthed=false');
+        if (ev(w, '__top()') !== 'kripto') { await retry(w, "__go(['home','kripto'])"); await sleep(450); }
+        await sleep(1100);
+        ev(w, '__tap()');
+        await sleep(320);
+        ev(w, "openRedirect('BTC/TL','Al')");
+      },
+      async function(w){
+        navLock = Date.now() + 2600;
+        if (ev(w, 'appOpen')) {
+          if (ev(kwin(w), 'loggedOut') !== false) return;
+          ev(w, 'closeKriptoApp()'); await sleep(560);
+        }
+        ev(w, 'state.kAuthed=false');
+        await retry(w, "__go(['home','kripto'])");
+        ev(w, 'redirIntent=null;openKriptoApp()');
+      },
+      async function(w){
+        navLock = Date.now() + 3600;
+        if (!ev(w, 'appOpen')) { ev(w, 'state.kAuthed=true'); await retry(w, "__go(['home','kripto'])"); ev(w, 'redirIntent=null;openKriptoApp()'); return; }
+        for (var i = 0; i < 30; i++){
+          var kw = kwin(w), lo = ev(kw, "loggedOut&&$('#kl-sheet').classList.contains('open')");
+          if (lo === true) { ev(kw, "$('#kl-pass').value='123456';drawDots();doLogin()"); return; }
+          if (ev(kw, 'loggedOut') === false && ev(kw, 'state.kAuthed')) return;
+          await sleep(150);
+        }
+      },
+      async function(w){
+        navLock = Date.now() + 1200;
+        if (ev(w, 'appOpen')) ev(w, 'closeKriptoApp()');
+      }
+    ]
+  };
+  var HB_MAP = { home: 1, kripto: 2, piyasalar: 3, coin: 4, varliklar: 5, gonder: 6, ozet: 7, sonuc: 8, dekont: 8 };
+  var HK_MAP = { 'k-home': 0, 'k-markets': 1, 'k-search': 1, 'k-trade': 2, 'k-tsum': 3, 'k-tres': 4, 'k-dep': 5, 'k-depd': 6, 'k-wd': 7, 'k-wdx': 7, 'k-assets': 8, 'k-history': 9, 'k-profile': 10, 'k-notifs': 10, 'k-limits': 10 };
+  function detect(L, k){
+    var w = L.win;
+    if (L.name === 'hb') {
+      if (ev(w, "(function(){var s=el('splash');return !!s&&!s.classList.contains('gone');})()")) return 0;
+      if (ev(w, "el('login').classList.contains('active')")) return 0;
+      if (ev(w, 'appOpen')) return null; var t = HB_MAP[ev(w, '__top()')]; return t === undefined ? null : t; }
+    if (L.name === 'hk') { var h = HK_MAP[ev(w, '__ktop()')]; return h === undefined ? null : h; }
+    if (ev(w, 'appOpen')) return ev(w, 'state.kAuthed') ? 2 : 1;
+    if (ev(w, 'redirOpen')) return 0;
+    return k >= 2 ? 3 : null;
+  }
+  function navTo(L, k){
+    navLock = Date.now() + 1600;
+    try { if (L.name === 'hb' && k >= 2) ev(L.win, '__skip()'); var r = NAV[L.name][k](L.win, L); if (r && r.catch) r.catch(function(){}); } catch (e) {}
+  }
+  function initLive(box){
+    var name = box.getAttribute('data-live'), fr = box.querySelector('iframe');
+    var L = lives[name] = { name: name, box: box, frame: fr, win: null, ready: false, slide: box.closest('.slide') };
+    fitLive(L);
+    function onLoad(){
+      var w; try { w = fr.contentWindow; if (!w.document.getElementById('device') || w.__deckInit) return; w.__deckInit = 1; } catch (e) { return; }
+      L.win = w;
+      try { var st = w.document.createElement('style'); st.textContent = BG_CSS + (name === 'hk' ? HK_FADE : ''); w.document.head.appendChild(st); } catch (e) {}
+      hookKeys(w);
+      setTimeout(function(){
+        ev(w, name === 'hk' ? HK_HELP : HB_HELP);
+        if (name !== 'hk') ev(w, "try{$('#kripto-tile').classList.remove('hint','nudge')}catch(e){}");
+        if (name === 'gecis') ev(w, "var s0=el('splash');if(s0)s0.remove();el('login').classList.remove('active');__go(['home','kripto']);(function(){var b=$('#redir-go'),n=b.cloneNode(true);b.replaceWith(n);n.addEventListener('click',function(){redirIntent=null;openKriptoApp();});})()");
+        L.ready = true; box.classList.add('ready');
+        if (L.reloading) { L.reloading = false; return; }
+        if (cur >= 0 && slides[steps[cur].s] === L.slide) navTo(L, steps[cur].k);
+      }, name === 'hb' ? 0 : 1900);
+    }
+    fr.addEventListener('load', onLoad);
+    try { if (fr.contentDocument && fr.contentDocument.readyState === 'complete') onLoad(); } catch (e) {}
+  }
+  function stepIndex(si, k){ for (var i = 0; i < steps.length; i++) if (steps[i].s === si && steps[i].k === k) return i; return -1; }
+  setInterval(function(){
+    ['hb', 'gecis'].forEach(function(n){ var L = lives[n]; if (L && L.ready) { var kw = kwin(L.win); if (kw) hookKeys(kw); } });
+    if (cur < 0 || Date.now() < navLock) return;
+    var st = steps[cur], L = liveOf(slides[st.s]);
+    if (!L || !L.ready) return;
+    var k = detect(L, st.k);
+    if (k === null || k === undefined || k === st.k) return;
+    var gi = stepIndex(st.s, k); if (gi >= 0) go(gi, true);
+  }, 300);
+  window.addEventListener('resize', function(){ for (var n in lives) fitLive(lives[n]); });
+
+  function noteFor(st){
+    if (slides[st.s] === seq) return seqNotes[st.k] || '';
+    if (slides[st.s].classList.contains('tour')) {
+      var ti = slides[st.s].querySelectorAll('.tinfo')[st.k];
+      return ti ? ti.getAttribute('data-notes') || '' : '';
+    }
+    return slides[st.s].getAttribute('data-notes') || '';
+  }
+  function go(i, silent){
+    i = Math.max(0, Math.min(steps.length - 1, i));
+    if (i === cur) return;
+    var st = steps[i], prevSlide = cur >= 0 ? steps[cur].s : -1;
+    if (st.s !== prevSlide){
+      slides.forEach(function(s, si){ s.classList.toggle('is-on', si === st.s); s.setAttribute('aria-hidden', si === st.s ? 'false' : 'true'); });
+    }
+    if (slides[st.s] === seq) setStep(st.k);
+    else if (slides[st.s].classList.contains('tour')) setTour(slides[st.s], st.k);
+    cur = i;
+    if (!silent) { var LL = liveOf(slides[st.s]); if (LL && LL.ready) navTo(LL, st.k); }
+    count.textContent = (i + 1) + ' / ' + steps.length;
+    bar.style.width = ((i + 1) / steps.length * 100) + '%';
+    notesText.textContent = noteFor(st);
+    try { history.replaceState(null, '', '#s' + (i + 1)); } catch (e) {}
+  }
+  function next(){ go(cur + 1); }
+  function prev(){ go(cur - 1); }
+  function toggleFs(){
+    try {
+      if (document.fullscreenElement) { document.exitFullscreen().catch(function(){}); }
+      else if (document.documentElement.requestFullscreen) { document.documentElement.requestFullscreen().catch(function(){}); }
+    } catch (e) {}
+  }
+  function toggleNotes(){ notes.hidden = !notes.hidden; }
+
+  document.addEventListener('keydown', function(e){
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ' || k === 'Enter') {
+      if (k === 'Enter' && e.target.closest && e.target.closest('button')) return;
+      e.preventDefault(); next();
+    }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); prev(); }
+    else if (k === 'Home') { e.preventDefault(); go(0); }
+    else if (k === 'End') { e.preventDefault(); go(steps.length - 1); }
+    else if (k === 'f' || k === 'F') { toggleFs(); }
+    else if (k === 'n' || k === 'N') { toggleNotes(); }
+  });
+  document.getElementById('deck').addEventListener('click', function(e){
+    var sel = window.getSelection && String(window.getSelection());
+    if (sel) return;
+    if (e.clientX < window.innerWidth * 0.25) prev(); else next();
+  });
+  document.getElementById('prev').addEventListener('click', prev);
+  document.getElementById('next').addEventListener('click', next);
+  document.getElementById('fs').addEventListener('click', toggleFs);
+  document.getElementById('notesBtn').addEventListener('click', toggleNotes);
+
+  var sx = null;
+  document.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function(e){
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+  }, { passive: true });
+
+  var hud = document.getElementById('hud'), hideT;
+  function poke(){ hud.classList.add('show'); clearTimeout(hideT); hideT = setTimeout(function(){ hud.classList.remove('show'); }, 2200); }
+  document.addEventListener('mousemove', poke);
+
+  function fromHash(){
+    var m = /^#s(\d+)$/.exec(location.hash || '');
+    go(m ? parseInt(m[1], 10) - 1 : (cur < 0 ? 0 : cur));
+  }
+  document.querySelectorAll('.live').forEach(initLive);
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+  poke();
+})();
+</script>
+
+</body></html>
