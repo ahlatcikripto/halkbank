@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Halkkripto Borsa Platformu</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: full-viewport slides sized by one unit --u (1px of a 1920x1080 design), same system as the other Halkkripto decks.
+   Single light look in Halkbank blue; product screenshots carry the colour, the frame stays quiet. */
+:root{
+  --blue:#225591; --blue-ink:#1B4677; --ink:#0F172B; --muted:#5A6678; --line:#D6DEE9; --soft:#F2F5F9; --paper:#FFFFFF;
+  --gw:#E9F0F9; --tint:#DCE8F7; --orange:#F26F21; --orange-ink:#C9560F; --orange-soft:#FEECE1;
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --u:min(calc(100vw / 1920), calc(100vh / 1080));
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+.deck{position:relative;width:100%;height:100%;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;box-sizing:border-box;
+  padding-block:calc(56*var(--u)) calc(44*var(--u));
+  padding-left:max(16px, env(safe-area-inset-left,0px), calc(140*var(--u)));
+  padding-right:max(16px, env(safe-area-inset-right,0px), calc(140*var(--u)));
+  background:var(--paper);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.slide.is-on{opacity:1;visibility:visible;transition:opacity .45s ease}
+
+/* header */
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:calc(40*var(--u));flex:none}
+.hd-l{min-width:0;display:flex;flex-direction:column;gap:calc(10*var(--u))}
+.grp{font:600 calc(15*var(--u))/1 var(--mono);letter-spacing:.16em;color:var(--orange-ink)}
+.hd h1{margin:0;font-size:calc(56*var(--u));font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--blue);text-wrap:balance}
+.hd p{margin:0;font-size:calc(28*var(--u));font-weight:700;line-height:1.25;color:var(--ink)}
+.logo{flex:none;width:calc(172*var(--u));height:auto;margin-top:calc(10*var(--u))}
+
+/* module slide body */
+.body{flex:1;min-height:0;display:flex;align-items:center;gap:calc(64*var(--u));margin-top:calc(28*var(--u))}
+.txt{flex:none;width:calc(520*var(--u));display:flex;flex-direction:column;gap:calc(28*var(--u))}
+.pts{margin:0;padding-left:1.1em;font-size:calc(27*var(--u));line-height:1.75;color:var(--ink)}
+.pts li::marker{color:var(--blue)}
+.lead-s{margin:0;font-size:calc(24*var(--u));font-weight:600;color:var(--muted)}
+.shot{appearance:none;border:0;background:none;padding:0;cursor:zoom-in;flex:1;min-width:0;align-self:stretch;display:flex;align-items:center;justify-content:center;position:relative}
+.shot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;transition:transform .45s cubic-bezier(.22,.7,.2,1)}
+.shot:hover img{transform:scale(1.015)}
+.shot .zoom{position:absolute;right:calc(8*var(--u));bottom:calc(8*var(--u));display:flex;align-items:center;gap:calc(8*var(--u));padding:calc(8*var(--u)) calc(14*var(--u));border-radius:999px;
+  background:rgba(15,23,43,.78);color:#FFFFFF;font-size:calc(16*var(--u));font-weight:600;opacity:0;transform:translateY(calc(6*var(--u)));transition:opacity .3s ease,transform .3s ease}
+.shot .zoom svg{width:calc(18*var(--u));height:calc(18*var(--u))}
+.shot:hover .zoom,.shot:focus-visible .zoom{opacity:1;transform:none}
+.shot:focus-visible{outline:3px solid var(--orange);outline-offset:4px;border-radius:calc(12*var(--u))}
+
+/* solution blocks */
+.feats{display:flex;flex-direction:column;gap:calc(30*var(--u))}
+.feat{display:flex;flex-direction:column;gap:calc(8*var(--u));padding-left:calc(22*var(--u));border-left:calc(4*var(--u)) solid var(--blue)}
+.feat b{font-size:calc(27*var(--u));font-weight:700;line-height:1.2}
+.feat span{font-size:calc(23*var(--u));line-height:1.45;color:var(--muted)}
+
+/* cover */
+.cover{background:var(--blue);color:#FFFFFF;flex-direction:row;align-items:center;overflow:hidden;
+  padding-left:max(16px, env(safe-area-inset-left,0px), calc(103*var(--u)))}
+.c-txt{position:relative;z-index:1;flex:none;display:flex;flex-direction:column;gap:calc(14*var(--u))}
+.c-txt .eyebrow{margin:0;font-size:calc(36*var(--u));font-weight:400;letter-spacing:.02em}
+.c-txt h1{margin:0;white-space:nowrap;font-size:calc(96*var(--u));font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.c-txt .sub{margin:calc(18*var(--u)) 0 0;font-size:calc(30*var(--u));font-weight:400;letter-spacing:.02em;line-height:1.3;white-space:nowrap}
+.c-img{position:absolute;right:0;top:50%;height:min(calc(100vh - 120*var(--u)), calc(1000*var(--u)));width:auto;max-width:none;transform:translateY(-50%)}
+.c-logo{position:absolute;left:max(16px, env(safe-area-inset-left,0px), calc(103*var(--u)));bottom:calc(80*var(--u));width:calc(172*var(--u))}
+
+/* closing */
+.closing{background:var(--blue);overflow:hidden;justify-content:center}
+.cl-logo{position:absolute;z-index:1;left:13.6vw;top:50%;width:min(26.8vw, calc(515*var(--u)));height:auto;transform:translateY(-50%)}
+.cl-img{position:absolute;right:0;top:0;height:100%;width:auto;max-width:none}
+
+/* module index */
+.idx{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:calc(28*var(--u));margin-top:calc(48*var(--u));align-content:start}
+.ig{display:flex;flex-direction:column;gap:calc(14*var(--u))}
+.ig h2{margin:0 0 calc(4*var(--u));display:flex;align-items:center;gap:calc(12*var(--u));font:600 calc(15*var(--u))/1 var(--mono);letter-spacing:.16em;color:var(--orange-ink)}
+.ig h2::after{content:"";flex:1;height:1px;background:var(--line)}
+.ig .cols{display:grid;gap:calc(16*var(--u))}
+.ig.two .cols{grid-template-columns:1fr 1fr}
+.mod{appearance:none;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;text-align:left;box-sizing:border-box;display:flex;align-items:center;gap:calc(18*var(--u));
+  min-height:calc(104*var(--u));padding:calc(20*var(--u)) calc(22*var(--u));border-radius:calc(16*var(--u));transition:border-color .25s ease,box-shadow .25s ease,transform .25s ease}
+.mod:hover{border-color:var(--blue);box-shadow:0 calc(14*var(--u)) calc(30*var(--u)) rgba(34,85,145,.14);transform:translateY(calc(-2*var(--u)))}
+.mod:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.mod .no{flex:none;width:calc(40*var(--u));height:calc(40*var(--u));border-radius:50%;display:grid;place-items:center;background:var(--gw);color:var(--blue);font:600 calc(15*var(--u))/1 var(--mono)}
+.mod b{display:block;font-size:calc(24*var(--u));font-weight:700;line-height:1.2;color:var(--ink)}
+.mod span.d{display:block;margin-top:calc(6*var(--u));font-size:calc(17*var(--u));line-height:1.35;color:var(--muted)}
+.mod .tx{min-width:0}
+.mod.seen .no{background:var(--blue);color:#FFFFFF}
+
+/* architecture teaser */
+.cta{appearance:none;display:inline-flex;align-items:center;align-self:flex-start;gap:calc(12*var(--u));padding:calc(16*var(--u)) calc(24*var(--u));border-radius:999px;background:var(--blue);color:#FFFFFF;
+  font-size:calc(22*var(--u));font-weight:600;text-decoration:none;box-shadow:0 calc(14*var(--u)) calc(30*var(--u)) rgba(34,85,145,.28);transition:transform .25s ease,box-shadow .25s ease}
+.cta:hover{transform:translateY(calc(-2*var(--u)));box-shadow:0 calc(20*var(--u)) calc(40*var(--u)) rgba(34,85,145,.34)}
+.cta svg{width:calc(22*var(--u));height:calc(22*var(--u))}
+.cta:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+/* infrastructure stack */
+.stack{flex:1;min-width:0;display:flex;flex-direction:column;align-items:stretch;max-width:calc(820*var(--u));margin-left:auto}
+.layer{position:relative;display:flex;align-items:center;gap:calc(20*var(--u));padding:calc(18*var(--u)) calc(24*var(--u));border-radius:calc(16*var(--u));background:var(--paper);
+  border:1.5px solid var(--line);border-left:calc(5*var(--u)) solid var(--ink);box-shadow:0 calc(6*var(--u)) calc(18*var(--u)) rgba(15,23,43,.05);transition:border-color .35s ease,box-shadow .35s ease}
+.layer.hl{border-left-color:var(--blue)}
+.layer .ic{flex:none;width:calc(60*var(--u));height:calc(60*var(--u));border-radius:calc(14*var(--u));display:grid;place-items:center;background:var(--soft);color:var(--ink)}
+.layer.hl .ic{background:var(--gw);color:var(--blue)}
+.layer .ic svg{width:calc(28*var(--u));height:calc(28*var(--u))}
+.layer b{display:block;font-size:calc(23*var(--u));font-weight:700;line-height:1.2}
+.layer span{display:block;margin-top:calc(4*var(--u));font-size:calc(17*var(--u));color:var(--muted)}
+.layer .met{margin-left:auto;text-align:right}
+.layer .met b{font-size:calc(30*var(--u));color:var(--ink)}
+.layer .met span{margin-top:0}
+.layer.pulse{border-color:var(--blue);box-shadow:0 0 0 calc(3*var(--u)) rgba(34,85,145,.18),0 calc(10*var(--u)) calc(26*var(--u)) rgba(34,85,145,.16)}
+.link{position:relative;height:calc(56*var(--u));display:flex;align-items:center;padding-left:calc(358*var(--u))}
+.link::before{content:"";position:absolute;left:calc(340*var(--u));top:calc(6*var(--u));bottom:calc(6*var(--u));width:2px;background:var(--blue);opacity:.35}
+.link i{position:absolute;left:calc(335*var(--u));top:calc(4*var(--u));width:calc(12*var(--u));height:calc(12*var(--u));border-radius:50%;background:var(--blue);animation:drop 2.4s cubic-bezier(.5,0,.5,1) infinite}
+.link:nth-of-type(4) i{animation-delay:.6s} .link:nth-of-type(6) i{animation-delay:1.2s} .link:nth-of-type(8) i{animation-delay:1.8s}
+@keyframes drop{0%{transform:translateY(0);opacity:0}15%{opacity:1}85%{opacity:1}100%{transform:translateY(calc(36*var(--u)));opacity:0}}
+.link em{font-style:normal;display:inline-flex;align-items:center;gap:calc(8*var(--u));padding:calc(7*var(--u)) calc(14*var(--u));border-radius:999px;background:var(--paper);border:1px solid var(--line);
+  font-size:calc(15*var(--u));font-weight:600}
+.link em::before{content:"";width:calc(7*var(--u));height:calc(7*var(--u));border-radius:50%;background:var(--blue)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:calc(14*var(--u))}
+.kpi{padding:calc(18*var(--u)) calc(20*var(--u));border-radius:calc(16*var(--u));background:var(--gw)}
+.kpi b{display:block;font-size:calc(34*var(--u));font-weight:700;letter-spacing:-.02em;color:var(--blue);font-variant-numeric:tabular-nums}
+.kpi span{display:block;margin-top:calc(4*var(--u));font-size:calc(17*var(--u));line-height:1.35;color:var(--ink)}
+
+/* integration hub */
+.hub{position:relative;flex:1;min-width:0;align-self:stretch}
+.hub svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hub .spoke{stroke:#9DB1CC;stroke-width:1.5;stroke-dasharray:3 5;transition:stroke .3s ease,stroke-width .3s ease}
+.hub .spoke.on{stroke:var(--blue);stroke-width:3;stroke-dasharray:none}
+.core{position:absolute;left:50%;top:50%;width:calc(240*var(--u));height:calc(240*var(--u));transform:translate(-50%,-50%);border-radius:50%;background:var(--paper);
+  border:1.5px dashed #9DB1CC;display:grid;place-items:center;box-shadow:0 0 0 calc(40*var(--u)) rgba(34,85,145,.06),0 0 0 calc(80*var(--u)) rgba(34,85,145,.03)}
+.core img{width:calc(170*var(--u));height:auto}
+.node{appearance:none;position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:calc(10*var(--u));white-space:nowrap;cursor:pointer;
+  padding:calc(12*var(--u)) calc(18*var(--u));border-radius:calc(12*var(--u));background:var(--paper);border:1.5px solid var(--line);box-shadow:0 calc(6*var(--u)) calc(16*var(--u)) rgba(15,23,43,.06);
+  font-size:calc(18*var(--u));font-weight:700;color:var(--ink);transition:border-color .3s ease,background-color .3s ease,color .3s ease,box-shadow .3s ease}
+.node::before{content:"";width:calc(9*var(--u));height:calc(9*var(--u));border-radius:50%;background:var(--blue);transition:background-color .3s ease}
+.node.on{background:var(--blue);border-color:var(--blue);color:#FFFFFF;box-shadow:0 calc(14*var(--u)) calc(30*var(--u)) rgba(34,85,145,.3)}
+.node.on::before{background:#FFFFFF}
+.node:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.ilist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(6*var(--u))}
+.ilist button{appearance:none;border:0;background:none;cursor:pointer;width:100%;display:flex;align-items:flex-start;gap:calc(14*var(--u));text-align:left;
+  padding:calc(9*var(--u)) calc(12*var(--u));border-radius:calc(12*var(--u));font-size:calc(23*var(--u));line-height:1.35;color:var(--ink);transition:background-color .25s ease,color .25s ease}
+.ilist button::before{content:"";flex:none;margin-top:calc(11*var(--u));width:calc(8*var(--u));height:calc(8*var(--u));border-radius:50%;background:var(--blue)}
+.ilist button:hover,.ilist button.on{background:var(--gw);color:var(--blue-ink)}
+.ilist button:focus-visible{outline:3px solid var(--orange);outline-offset:1px}
+
+/* feature table */
+.ftab{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:calc(28*var(--u));margin-top:calc(34*var(--u));align-content:start}
+.fcol{display:flex;flex-direction:column;gap:calc(24*var(--u))}
+.fg{border-left:calc(4*var(--u)) solid var(--blue);padding-left:calc(18*var(--u))}
+.fg h3{margin:0 0 calc(8*var(--u))}
+.fg h3 button,.fg h3 span{appearance:none;border:0;background:none;padding:0;display:inline-flex;align-items:center;gap:calc(8*var(--u));font-size:calc(19*var(--u));font-weight:700;color:var(--ink);text-align:left}
+.fg h3 button{cursor:pointer}
+.fg h3 button svg{width:calc(16*var(--u));height:calc(16*var(--u));color:var(--blue);opacity:.0;transform:translateX(calc(-4*var(--u)));transition:opacity .25s ease,transform .25s ease}
+.fg h3 button:hover{color:var(--blue)}
+.fg h3 button:hover svg,.fg h3 button:focus-visible svg{opacity:1;transform:none}
+.fg h3 button:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:4px}
+.fg ul{margin:0;padding-left:1.1em;font-size:calc(17*var(--u));line-height:1.62;color:var(--ink)}
+.fg li::marker{color:var(--blue)}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;box-sizing:border-box;background:rgba(15,23,43,.86);cursor:zoom-out;
+  padding:max(16px, env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) max(16px, env(safe-area-inset-bottom,0px)) max(16px, env(safe-area-inset-left,0px));
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility 0s linear .3s}
+.lb.on{opacity:1;visibility:visible;transition:opacity .3s ease}
+.lb img{max-width:100%;max-height:100%;width:auto;height:auto;border-radius:12px;background:#FFFFFF;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.lb .x{position:absolute;top:max(16px, env(safe-area-inset-top,0px));right:max(16px, env(safe-area-inset-right,0px));width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#FFFFFF;cursor:pointer;display:grid;place-items:center}
+.lb .x svg{width:20px;height:20px}
+
+/* controls */
+.hud{position:fixed;right:max(16px, env(safe-area-inset-right,0px));bottom:max(14px, env(safe-area-inset-bottom,0px));z-index:8;display:flex;align-items:center;gap:6px;
+  padding:6px;border-radius:999px;background:rgba(15,23,43,.78);color:#FFFFFF;font:600 13px/1 var(--font);opacity:0;transition:opacity .3s ease}
+.hud.show,.hud:focus-within{opacity:1}
+.hud button{all:unset;cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:999px}
+.hud button:hover{background:rgba(255,255,255,.14)}
+.hud button:focus-visible{outline:2px solid #FFFFFF;outline-offset:1px}
+.hud svg{width:18px;height:18px}
+.hud .count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.bar{position:fixed;left:0;bottom:0;height:3px;background:var(--orange);z-index:7;transition:width .35s ease;opacity:.85}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+</style>
+
+</head>
+<body>
+<div class="deck" id="deck"></div>
+
+<div class="lb" id="lb" role="dialog" aria-label="Ekran görüntüsü">
+  <img id="lbImg" alt="">
+  <button type="button" class="x" aria-label="Kapat"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg></button>
+</div>
+
+<div class="hud" id="hud" role="toolbar" aria-label="Sunum kontrolleri">
+  <button type="button" id="home" aria-label="Modüller (M)"><svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></g></svg></button>
+  <button type="button" id="prev" aria-label="Önceki"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m15 5-7 7 7 7"/></svg></button>
+  <span class="count" id="count">1 / 1</span>
+  <button type="button" id="next" aria-label="Sonraki"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg></button>
+  <button type="button" id="fs" aria-label="Tam ekran (F)"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+<div class="bar" id="bar"></div>
+
+<script>
+(function(){
+/* ============================ CONTENT ============================ */
+var ARCH_URL = 'https://ahlatcikripto.github.io/halkbank/sistem-mimarisi/#topoloji';
+var G = { app:'KULLANICI UYGULAMASI', bo:'YÖNETİM PANELİ', inf:'ALTYAPI' };
+
+var MODULES = [
+  { key:'cuzdan', g:'app', t:'Cüzdan Modülü', s:'Tüm varlıkların tek ekrandan yönetildiği cüzdan modülü', d:'Varlıklar, kâr/zarar, yatırma ve çekme', img:'cuzdan.jpg',
+    pts:['Kolay para yatırma ve çekme','Anlık kâr/zarar ve portföy takibi','Varlık dağılım grafikleri','İşlem geçmişi görüntüleme','Küçük bakiyeleri dönüştürme','Aylık müşteri raporu / ekstre','Çoklu blokzincir varlık yönetimi','Yasaklı adresler kontrolü','Düzenli alım ile otomatik yatırım'] },
+  { key:'piyasalar', g:'app', t:'Piyasalar Modülü', s:'Paritelerin takip edildiği piyasalar modülü', d:'Pariteler, filtreler ve favoriler', img:'piyasalar.jpg',
+    pts:['Tüm pariteleri tek ekrandan takip','Anlık varlık durumu izleme','Yükselen/düşen varlık takibi','Gelişmiş parite filtreleme','Parite detay ekranı','Favori parite listesi','Canlı fiyat ve grafik analizi','Hızlı varlık arama'] },
+  { key:'gelismis', g:'app', t:'Gelişmiş Al/Sat Modülü', s:'Temel ve gelişmiş emir tiplerini destekleyen profesyonel al/sat modülü', d:'Emir tipleri, emir defteri, derinlik', img:'gelismis.jpg',
+    pts:['Piyasa emir tipi','Limit emir tipi','Stop-Piyasa emir tipi','Stop-Limit emir tipi','OCO emir tipi','Emir defteri yönetimi','Anlık emir ve piyasa derinliği','Gerçek zamanlı grafikler','Açık emir ve işlem geçmişi takibi'] },
+  { key:'kolay', g:'app', t:'Kolay Al/Sat Modülü', s:'Hızlı ve kolay bir deneyim sunan kolay al/sat modülü', d:'Sade ekran, tek tıkla işlem', img:'kolay.jpg',
+    pts:['Sade ve kullanıcı dostu arayüz','Gerçek zamanlı fiyat gösterimi','Anlık varlık dönüşümü','Tek ekranda alım/satım işlemleri','Düşük minimum işlem tutarı','Tek tıkla işlem onayı'] },
+  { key:'yonetim', g:'bo', t:'Borsa Yönetim Paneli', s:'Borsanın tüm fonksiyonlarının yönetildiği yönetim paneli', d:'Onaylar, metrikler, hazine özeti', img:'yonetim.jpg',
+    pts:['Mevzuata uygun onay yönetimi','Otomatikleştirilebilir kontroller','Hazine durumu takibi','Gelir ve komisyon özeti','Canlı platform metrikleri','Hacim ve kullanıcı analitiği','Kritik gelişme bildirimleri'] },
+  { key:'musteri', g:'bo', t:'Müşteri Yönetimi', s:'Müşteri süreçlerinin takip edildiği müşteri yönetimi modülü', d:'Bireysel, kurumsal, KYC, sözleşmeler', img:'musteri.jpg',
+    pts:['Bireysel müşteri yönetimi','Kurumsal müşteri yönetimi','KYC durumu izleme','Hesap durumu yönetimi','Müşteri adayı yönetimi','Kurumsal başvuru yönetimi','Yüz yüze kayıt yönetimi','Sözleşme ve onay yönetimi','Çoklu cihaz erişimine uyumluluk'] },
+  { key:'transfer', g:'bo', t:'Transfer Yönetimi', s:'Transfer süreçlerinin takip edildiği transfer yönetimi modülü', d:'Seyahat kuralı, yaptırım, onay', img:'transfer.jpg',
+    pts:['Mevzuat yükümlülüklerine uygun','Seyahat kuralı bilgi toplama','Yaptırım listesi kontrolü','Yasaklı cüzdan analizi','Transfer açıklaması denetimi','Transfer onay yönetimi','Gerçek zamanlı transfer takibi'] },
+  { key:'hazine', g:'bo', t:'Hazine Yönetimi', s:'Kurum varlıklarının yönetildiği hazine yönetimi modülü', d:'Banka hesapları, saklama, limitler', img:'hazine.jpg',
+    pts:['Banka hesapları yönetimi','Para transfer yönetimi','Saklama cüzdanları yönetimi','Kripto varlık hareketleri yönetimi','Ücretler ve limitler yönetimi','Banka ve cüzdan riski yönetimi','Maker-checker onay mekanizması','Yönetici onay akışı kurgulama'] },
+  { key:'rol', g:'bo', t:'Rol ve Güvenlik Yönetimi', s:'Yetki ve erişim ayarlarının düzenlendiği rol ve güvenlik yönetimi modülü', d:'Personel, roller, denetim kaydı', img:'rol.jpg',
+    pts:['Personel yönetimi','Rol bazlı erişim yetkilendirme','İşlem bazlı yetkilendirme','Maker-checker mekanizması','Zaman damgalı denetim kayıtları'] },
+  { key:'uyum', g:'bo', t:'Yapay Zeka Destekli Mevzuat Uyum Modülü', short:'YZ Destekli Mevzuat Uyum', s:'Uyum, fraud ve fiyat gözetim süreçlerinin yönetildiği mevzuat uyum modülü', d:'SPK, MASAK, MKK; kod yazmadan kural', img:'uyum.jpg',
+    lead:'SPK, MASAK ve MKK ile uyumlu:',
+    pts:['Uyum, fraud ve fiyat gözetimi','Seyahat kuralı ve AML senaryoları','Uyarı ve işlem durdurma','Kuruma özel senaryo yönetimi','Anlık kural aktivasyonu','Kod yazmadan kural oluşturma'] },
+  { key:'rapor', g:'bo', t:'Raporlama ve İzlenebilirlik', s:'Mevzuat uyumlu, zaman damgalı denetim kayıtlarının izlendiği raporlama modülü', d:'Denetim kaydı, analiz, dışa aktarım', img:'rapor.jpg',
+    pts:['Mevzuat uyumlu kayıt yönetimi','Zaman damgalı denetim kayıtları','Banka hareketleri raporlama','Dönemsel alım-satım analizi','Müşteri bazlı işlem raporlama','Kurum kripto varlık takibi','Anlık portföy görüntüleme','Rapor dışa aktarım'] }
+];
+var INFRA = [
+  { key:'mimari', t:'Mikro Servis Mimarisi', d:'Katmanlar ve servisler' },
+  { key:'altyapi', t:'Güvenilir ve Ölçeklenebilir Altyapı', d:'Kapasite ve katmanlar' },
+  { key:'entegrasyon', t:'Kapsamlı Entegrasyon', d:'Banka, saklama, KPS, MKK ve diğerleri' },
+  { key:'ozellikler', t:'Detaylı Özellik Tablosu', d:'Tüm modüllerin özellikleri tek sayfada' }
+];
+var INTEG = [
+  { k:'banka', n:'9 Banka Entegrasyonu', side:'r', i:0, b:'9 banka ile hazır entegrasyon' },
+  { k:'saklama', n:'Saklama Entegrasyonu', side:'r', i:1, b:'Yerli ve yabancı saklama entegrasyonu' },
+  { k:'kyc', n:'KYC/KYB Entegrasyonu', side:'r', i:2, b:'Mevzuata uyumlu müşteri edinim uygulamalarına kolay entegrasyon' },
+  { k:'kps', n:'KPS Kimlik Doğrulama', side:'l', i:0, b:'KPS ile kimlik doğrulama' },
+  { k:'mkk', n:'MKK Entegrasyonu', side:'l', i:1, b:'MKK ile merkezi kayıt entegrasyonu' },
+  { k:'seyahat', n:'Seyahat Kuralı Entegrasyonu', side:'l', i:2, b:'Seyahat kuralı entegrasyonu' },
+  { k:'kyt', n:'KYT Entegrasyonu', side:'l', i:3, b:'Yerli ve yabancı KYT entegrasyonu' },
+  { k:'crm', n:'CRM Entegrasyonu', side:'r', i:3, b:'CRM sistemlerine uyumlu veri yönetimi' },
+  { k:'muhasebe', n:'Muhasebe Entegrasyonu', side:'r', i:4, b:'Mevzuata uygun muhasebe kaydı tutma' }
+];
+var FEATS = [
+  [ { h:'Cüzdan modülü özellikleri', go:'cuzdan', li:['Düzenli alım ile otomatik yatırım','Küçük bakiyeleri dönüştürme','Anlık portföy değeri takibi','Anlık kâr/zarar takibi','Varlık dağılım grafikleri','Kolay para yatırma ve çekme','İşlem geçmişi görüntüleme','Aylık müşteri raporu/ekstre','Çoklu blokzincir varlık yönetimi','Transfer engelleme','Yetkisiz transfer engelleme'] },
+    { h:'Piyasalar modülü özellikleri', go:'piyasalar', li:['Anlık varlık durumu izleme','Yükselen/düşen varlık takibi','Tüm pariteleri görüntüleme','Gelişmiş parite filtreleme','Parite detay ekranı','Favori parite listesi','Canlı fiyat ve grafik analizi','Hızlı arama'] } ],
+  [ { h:'Gelişmiş Al/Sat modülü özellikleri', go:'gelismis', li:['Emir defteri yönetimi','Anlık emir ve piyasa derinliği','Gerçek zamanlı grafikler','Teknik göstergelerle analiz','Açık emir ve işlem geçmişi'] },
+    { h:'Emir tipleri', go:'gelismis', li:['Piyasa emir tipi','Limit emir tipi','Stop-Piyasa emir tipi','Stop-Limit emir tipi','OCO emir tipi'] },
+    { h:'Kolay Al/Sat modülü özellikleri', go:'kolay', li:['Sade ve kullanıcı dostu arayüz','Gerçek zamanlı fiyat gösterimi','Anlık varlık dönüşümü','Tek ekranda alım/satım işlemleri','Düşük minimum işlem tutarı','Tek tıkla işlem onayı'] } ],
+  [ { h:'Yönetim paneli & altyapı', go:'yonetim', li:['İtibari para işlemleri yönetimi','Kripto varlık işlemleri yönetimi','Para transferi yönetimi','Kripto varlık transferi yönetimi','Güvenlik ve erişim yönetimi','Sözleşme yönetimi','Maker-Checker altyapısı','Mevzuata uygun rapor yönetimi'] },
+    { h:'Hazine & entegrasyonlar', go:'hazine', li:['Trade Engine yönetimi','Varlık yönetimi','Varlık ağları yönetimi','Pariteler yönetimi','Çekim ücretleri yönetimi','Komisyon ücretleri yönetimi','Limit ayarları yönetimi','VIP çekim yönetimi','MKK entegrasyonu','Travel Rule yönetimi','CRM entegrasyonu','Muhasebe entegrasyonu','Fatura entegrasyonu'] } ],
+  [ { h:'Müşteri & uyum yönetimi', go:'musteri', li:['Müşteri yönetimi','Aday müşteri yönetimi','Kurumsal müşteri yönetimi','Yüz yüze kayıt yönetimi','Kara liste yönetimi','Yasaklı listesi kontrolleri'] },
+    { h:'Uyum & AI Kuralları', go:'uyum', li:['YZ destekli kural oluşturucu','Uyum, fraud ve fiyat gözetimi','Seyahat Kuralı ve AML senaryoları','Uyarı ve işlem durdurma','Kuruma özel senaryo yönetimi','Anlık kural aktivasyonu'] },
+    { h:'Raporlar', go:'rapor', li:['Mevzuat uyumlu kayıt yönetimi','Zaman damgalı denetim kayıtları','Personel işlem kayıt raporu','Detaylı banka hareketleri raporlama','Dönemsel alım/satım hacmi analizi','Müşteri bazlı işlem/hacim raporlama','Kurum kripto varlık portföyü takibi','Anlık portföy raporlama'] } ]
+];
+
+/* ============================ BUILD ============================ */
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+var ZOOM = '<span class="zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.8-4.8M10.5 7.5v6M7.5 10.5h6"/></g></svg>Büyüt</span>';
+var ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>';
+var LOGO = '<img class="logo" src="img/logo_dark.png" alt="Ahlatcı Holding">';
+function hd(title, sub, grp){
+  return '<header class="hd"><div class="hd-l">' + (grp ? '<span class="grp">' + grp + '</span>' : '') + '<h1>' + esc(title) + '</h1>' + (sub ? '<p>' + esc(sub) + '</p>' : '') + '</div>' + LOGO + '</header>';
+}
+function shot(img, alt){ return '<button type="button" class="shot" data-zoom="img/' + img + '" aria-label="' + esc(alt) + ' ekranını büyüt"><img src="img/' + img + '" alt="' + esc(alt) + ' ekranları" loading="lazy">' + ZOOM + '</button>'; }
+
+var S = [];
+S.push({ key:'kapak', cls:'cover', html:
+  '<div class="c-txt"><p class="eyebrow">HALKBANK</p><h1>Borsa Platformu</h1><p class="sub">KRİPTO VARLIK BORSASI VE YÖNETİM PANELİ</p></div>'
+  + '<img class="c-img" src="img/cover.jpg" alt="">'
+  + '<img class="c-logo" src="img/logo_white.png" alt="Ahlatcı Holding">' });
+
+S.push({ key:'cozum', html: hd('Halkbank’a Özel Çözüm Önerimiz', 'MASAK ve SPK mevzuatına tam uyumlu platform altyapısı')
+  + '<div class="body"><div class="txt"><div class="feats">'
+  + '<div class="feat"><b>Gelişmiş borsa altyapısı</b><span>Çeşitli emir tipleri ve profesyonel işlem araçlarıyla bireysel ve kurumsal müşteriler için borsa deneyimi.</span></div>'
+  + '<div class="feat"><b>Hazır likidite desteği</b><span>100’den fazla kripto varlıkta Dolar ve Türk lirası paritelerinde entegre piyasa yapıcılık hizmeti.</span></div>'
+  + '<div class="feat"><b>Uçtan uca destek</b><span>Kurulum, geliştirme, entegrasyon, canlıya geçiş ve operasyon boyunca 7/24 destek hizmeti.</span></div>'
+  + '</div></div>' + shot('cozum.jpg', 'Halk Kripto borsa') + '</div>' });
+
+function modBtn(m, n){
+  return '<button type="button" class="mod" data-go="' + m.key + '"><span class="no">' + String(n).padStart(2, '0') + '</span><span class="tx"><b>' + esc(m.short || m.t) + '</b><span class="d">' + esc(m.d) + '</span></span></button>';
+}
+var n = 0, appM = MODULES.filter(function(m){ return m.g === 'app'; }), boM = MODULES.filter(function(m){ return m.g === 'bo'; });
+var idxHtml = '<div class="idx">'
+  + '<section class="ig"><h2>' + G.app + '</h2><div class="cols">' + appM.map(function(m){ return modBtn(m, ++n); }).join('') + '</div></section>'
+  + '<section class="ig two"><h2>' + G.bo + '</h2><div class="cols">' + boM.map(function(m){ return modBtn(m, ++n); }).join('') + '</div></section>'
+  + '<section class="ig"><h2>' + G.inf + '</h2><div class="cols">' + INFRA.map(function(m){ return modBtn(m, ++n); }).join('') + '</div></section>'
+  + '</div>';
+S.push({ key:'moduller', html: hd('Platform Modülleri', 'Kullanıcı uygulaması, yönetim paneli ve altyapı') + idxHtml });
+
+S.push({ key:'mimari', html: hd('Mikro Servis Mimarisi', 'Her işlevin ayrı bir servis olduğu, ölçeklenebilir yapı', G.inf)
+  + '<div class="body"><div class="txt"><ul class="pts"><li>İstemci, yönetim ve uygulama katmanları ayrık</li><li>Her ana işlev kendi servisinde</li><li>Kafka ve Horse ile olay ve kuyruk altyapısı</li><li>ELK, Prometheus ve Vault ile izleme ve güvenlik</li><li>Azure DevOps ile sürekli dağıtım</li></ul>'
+  + '<a class="cta" href="' + ARCH_URL + '" target="_blank" rel="noopener">İnteraktif mimari sunumunu aç ' + ARROW + '</a></div>'
+  + shot('mimari.jpg', 'Mikro servis mimarisi') + '</div>' });
+
+MODULES.forEach(function(m){
+  S.push({ key:m.key, html: hd(m.t, m.s, G[m.g])
+    + '<div class="body"><div class="txt">' + (m.lead ? '<p class="lead-s">' + esc(m.lead) + '</p>' : '') + '<ul class="pts">' + m.pts.map(function(p){ return '<li>' + esc(p) + '</li>'; }).join('') + '</ul></div>'
+    + shot(m.img, m.t) + '</div>' });
+});
+
+var IC = {
+  user:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.8-3.4 3.2-5 6-5s5.2 1.6 6 5M17 6v5M20 6v5"/></g></svg>',
+  shield:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4.3 3 7.7 7 9.5 4-1.8 7-5.2 7-9.5V6z"/><path d="m9 12 2 2 4-4"/></g></svg>',
+  pulse:'<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" d="M3 12h4l2-5 4 10 2-5h6"/></svg>',
+  wallet:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2.5"/><circle cx="12" cy="12" r="2"/><path d="M12 14v2"/></g></svg>',
+  db:'<svg viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/></g></svg>'
+};
+var LAY = [
+  { ic:'user', b:'Kullanıcı Katmanı', s:'Web ve mobil istemci · TLS 1.3 uçtan uca şifreleme' },
+  { ic:'shield', b:'API Ağ Geçidi ve Yük Dengeleyici', s:'Kimlik doğrulama · hız sınırlama · gerçek zamanlı yük dağıtımı', hl:1, l:'DDoS · WAF' },
+  { ic:'pulse', b:'İşlem Eşleştirme Motoru', s:'Düşük gecikmeli eşleştirme · emir defteri yönetimi', hl:1, met:['5–10K','takas / saniye'], l:'Mikroservis · Aktif-Aktif' },
+  { ic:'wallet', b:'Cüzdan ve Saklama', s:'Saklama yazılımları ile entegrasyon · sıcak / soğuk cüzdan ayrımı', l:'Gerçek zamanlı izleme' },
+  { ic:'db', b:'Veritabanı ve Saklama', s:'KVKK uyumlu · veri güvenliği', l:'Otomatik yedekleme' }
+];
+S.push({ key:'altyapi', html: hd('Güvenilir ve Ölçeklenebilir Altyapı', 'Test edilmiş ve ölçeklenebilir yazılım mimarisiyle yüksek performanslı işlem altyapısı', G.inf)
+  + '<div class="body"><div class="txt"><div class="kpis"><div class="kpi"><b>20–30K</b><span>emir girişine kadar ölçeklenebilirlik</span></div><div class="kpi"><b>5–10K</b><span>saniyede takas gerçekleştirme</span></div></div>'
+  + '<ul class="pts"><li>Düşük gecikmeli işlem eşleştirme</li><li>Ölçeklenebilir mikroservis mimarisi</li><li>Bulut, on-prem veya hibrit dağıtım</li><li>KVKK uyumlu veri güvenliği</li></ul></div>'
+  + '<div class="stack" id="stack">' + LAY.map(function(L, i){
+      return (L.l ? '<div class="link"><i></i><em>' + L.l + '</em></div>' : '')
+        + '<div class="layer' + (L.hl ? ' hl' : '') + '" data-i="' + i + '"><span class="ic">' + IC[L.ic] + '</span><div><b>' + L.b + '</b><span>' + L.s + '</span></div>'
+        + (L.met ? '<div class="met"><b>' + L.met[0] + '</b><span>' + L.met[1] + '</span></div>' : '') + '</div>';
+    }).join('') + '</div></div>' });
+
+S.push({ key:'entegrasyon', html: hd('Kapsamlı Entegrasyon', 'Üretici bağımsız entegrasyon mimarisi desteği', G.inf)
+  + '<div class="body"><div class="txt" style="width:calc(600*var(--u))"><ul class="ilist">' + INTEG.slice().sort(function(a, b){ return ['banka','saklama','kyc','kps','mkk','seyahat','kyt','crm','muhasebe'].indexOf(a.k) - ['banka','saklama','kyc','kps','mkk','seyahat','kyt','crm','muhasebe'].indexOf(b.k); })
+      .map(function(x){ return '<li><button type="button" data-k="' + x.k + '">' + esc(x.b) + '</button></li>'; }).join('') + '</ul></div>'
+  + '<div class="hub" id="hub"><svg aria-hidden="true"></svg><div class="core"><img src="img/hk-logo.png" alt="Halk Kripto"></div>'
+  + INTEG.map(function(x){ return '<button type="button" class="node" data-k="' + x.k + '">' + esc(x.n) + '</button>'; }).join('') + '</div></div>' });
+
+var CHEV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg>';
+S.push({ key:'ozellikler', html: hd('Detaylı Özellik Tablosu', 'Başlığa tıklayınca ilgili modül açılır', G.inf)
+  + '<div class="ftab">' + FEATS.map(function(col){
+      return '<div class="fcol">' + col.map(function(g){
+        return '<div class="fg"><h3><button type="button" data-go="' + g.go + '">' + esc(g.h) + CHEV + '</button></h3><ul>' + g.li.map(function(l){ return '<li>' + esc(l) + '</li>'; }).join('') + '</ul></div>';
+      }).join('') + '</div>';
+    }).join('') + '</div>' });
+
+S.push({ key:'kapanis', cls:'closing', html: '<img class="cl-img" src="img/closing.jpg" alt=""><img class="cl-logo" src="img/logo_white.png" alt="Ahlatcı Holding">' });
+
+var deck = document.getElementById('deck');
+deck.innerHTML = S.map(function(s){ return '<section class="slide' + (s.cls ? ' ' + s.cls : '') + '" data-key="' + s.key + '" aria-hidden="true">' + s.html + '</section>'; }).join('');
+var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+var KEYS = S.map(function(s){ return s.key; });
+
+/* ============================ INTEGRATION HUB ============================ */
+var hub = document.getElementById('hub'), hubSvg = hub.querySelector('svg'), nodes = {}, spokes = {};
+hub.querySelectorAll('.node').forEach(function(b){ nodes[b.getAttribute('data-k')] = b; });
+function layoutHub(){
+  var W = hub.clientWidth, H = hub.clientHeight; if (!W || !H) return;
+  var cx = W / 2, cy = H / 2, R = 120 * Math.min(innerWidth / 1920, innerHeight / 1080), html = '';
+  var cols = { l:INTEG.filter(function(x){ return x.side === 'l'; }), r:INTEG.filter(function(x){ return x.side === 'r'; }) };
+  ['l','r'].forEach(function(side){
+    var list = cols[side], k = list.length;
+    list.forEach(function(x, i){
+      var y = H * (0.1 + 0.8 * (k === 1 ? 0.5 : i / (k - 1)));
+      var el = nodes[x.k], w = el.offsetWidth;
+      var x0 = side === 'l' ? Math.max(w / 2 + 4, W * 0.17) : Math.min(W - w / 2 - 4, W * 0.83);
+      el.style.left = x0 + 'px'; el.style.top = y + 'px';
+      var ex = side === 'l' ? x0 + w / 2 + 6 : x0 - w / 2 - 6;
+      var ang = Math.atan2(y - cy, ex - cx), sx = cx + Math.cos(ang) * R, sy = cy + Math.sin(ang) * R;
+      html += '<line class="spoke" data-k="' + x.k + '" x1="' + sx.toFixed(1) + '" y1="' + sy.toFixed(1) + '" x2="' + ex.toFixed(1) + '" y2="' + y.toFixed(1) + '"/>';
+    });
+  });
+  hubSvg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  hubSvg.innerHTML = html;
+  hubSvg.querySelectorAll('.spoke').forEach(function(l){ spokes[l.getAttribute('data-k')] = l; });
+  markInteg(curInteg);
+}
+var curInteg = null, ilist = deck.querySelectorAll('.ilist button');
+function markInteg(k){
+  curInteg = k;
+  Object.keys(nodes).forEach(function(id){ nodes[id].classList.toggle('on', id === k); if (spokes[id]) spokes[id].classList.toggle('on', id === k); });
+  ilist.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-k') === k); });
+}
+deck.querySelector('[data-key="entegrasyon"]').addEventListener('click', function(ev){
+  var b = ev.target.closest('[data-k]'); if (!b) return;
+  var k = b.getAttribute('data-k'); markInteg(curInteg === k ? null : k);
+});
+deck.querySelector('[data-key="entegrasyon"]').addEventListener('mouseover', function(ev){
+  var b = ev.target.closest('[data-k]'); if (b) markInteg(b.getAttribute('data-k'));
+});
+
+/* ============================ INFRA PULSE ============================ */
+var layers = deck.querySelectorAll('#stack .layer'), pulseI = 0, pulseT = null;
+function pulse(){ layers.forEach(function(l, i){ l.classList.toggle('pulse', i === pulseI); }); pulseI = (pulseI + 1) % layers.length; }
+function setPulse(on){
+  clearInterval(pulseT); pulseT = null; layers.forEach(function(l){ l.classList.remove('pulse'); });
+  if (on && !(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches)) { pulseI = 0; pulse(); pulseT = setInterval(pulse, 1200); }
+}
+
+/* ============================ LIGHTBOX ============================ */
+var lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg'), lastFocus = null;
+function openLb(src, alt){ lastFocus = document.activeElement; lbImg.src = src; lbImg.alt = alt || ''; lb.classList.add('on'); lb.querySelector('.x').focus(); }
+function closeLb(){ lb.classList.remove('on'); if (lastFocus && lastFocus.focus) lastFocus.focus(); }
+lb.addEventListener('click', closeLb);
+deck.addEventListener('click', function(ev){
+  var z = ev.target.closest('[data-zoom]'); if (z) { openLb(z.getAttribute('data-zoom'), z.querySelector('img').alt); return; }
+  var g = ev.target.closest('[data-go]'); if (g) go(KEYS.indexOf(g.getAttribute('data-go')));
+});
+
+/* ============================ NAVIGATION ============================ */
+var cur = -1, seen = {}, bar = document.getElementById('bar'), count = document.getElementById('count');
+function go(i){
+  i = Math.max(0, Math.min(slides.length - 1, i));
+  if (i === cur) return;
+  var prev = slides[cur];
+  if (prev && document.activeElement && prev.contains(document.activeElement)) document.activeElement.blur();
+  cur = i;
+  slides.forEach(function(s, j){ s.classList.toggle('is-on', j === i); s.setAttribute('aria-hidden', j === i ? 'false' : 'true'); });
+  var key = KEYS[i];
+  if (location.hash.slice(1) !== key) { try { history.replaceState(null, '', '#' + key); } catch (e) {} }
+  if (!seen[key]) { seen[key] = 1; var m = deck.querySelector('.mod[data-go="' + key + '"]'); if (m) m.classList.add('seen'); }
+  if (key === 'entegrasyon') requestAnimationFrame(layoutHub);
+  setPulse(key === 'altyapi');
+  count.textContent = (i + 1) + ' / ' + slides.length;
+  bar.style.width = (slides.length > 1 ? i / (slides.length - 1) * 100 : 100) + '%';
+}
+function next(){ go(cur + 1); }
+function prev(){ go(cur - 1); }
+function home(){ go(KEYS.indexOf('moduller')); }
+function toggleFs(){
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else { var p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(function(){}); }
+  } catch (e) {}
+}
+document.addEventListener('keydown', function(e){
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var k = e.key;
+  if (lb.classList.contains('on')) { if (k === 'Escape' || k === ' ' || k === 'Enter') { e.preventDefault(); closeLb(); } return; }
+  if (k === 'ArrowRight' || k === 'PageDown' || k === ' ') { e.preventDefault(); next(); }
+  else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
+  else if (k === 'Home') go(0);
+  else if (k === 'End') go(slides.length - 1);
+  else if (k === 'm' || k === 'M') home();
+  else if (k === 'f' || k === 'F') toggleFs();
+  else if (k === 'Escape') markInteg(null);
+});
+document.getElementById('next').addEventListener('click', next);
+document.getElementById('prev').addEventListener('click', prev);
+document.getElementById('home').addEventListener('click', home);
+document.getElementById('fs').addEventListener('click', toggleFs);
+var hud = document.getElementById('hud'), hideT;
+function poke(){ hud.classList.add('show'); clearTimeout(hideT); hideT = setTimeout(function(){ hud.classList.remove('show'); }, 2200); }
+document.addEventListener('mousemove', poke);
+document.addEventListener('touchstart', poke, { passive:true });
+var rz; addEventListener('resize', function(){ cancelAnimationFrame(rz); rz = requestAnimationFrame(layoutHub); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(layoutHub);
+
+var start = Math.max(0, KEYS.indexOf(location.hash.slice(1)));
+go(start);
+addEventListener('hashchange', function(){ var i = KEYS.indexOf(location.hash.slice(1)); if (i >= 0 && i !== cur) go(i); });
+})();
+</script>
+
+</body>
+</html>
