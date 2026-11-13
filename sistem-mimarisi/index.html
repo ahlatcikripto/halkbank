@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Halkkripto Sistem Mimarisi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: full-viewport slides sized by one unit --u (1px of a 1920x1080 design), same system as the Halkkripto deck.
+   Single light look in Halkbank blue; line kinds carry their own hue and dash so flows read at a glance. */
+:root{
+  --blue:#225592; --blue-ink:#1B4677; --ink:#0F172B; --muted:#5A6678; --line:#D6DEE9; --soft:#F2F5F9; --paper:#FFFFFF;
+  --gw:#E9F0F9; --gw-line:#C6D5E8; --orange:#F26F21; --orange-ink:#C9560F; --orange-soft:#FEECE1;
+  --k-req:#225592; --k-evt:#E8650F; --k-data:#5F6F86; --k-live:#0E9A72; --k-obs:#7556C2; --k-sec:#0E7490;
+  --font:'Inter','Helvetica Neue',Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --u:min(calc(100vw / 1920), calc(100vh / 1080));
+  color-scheme:light;
+}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+.deck{position:relative;width:100%;height:100%;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;box-sizing:border-box;
+  padding-block:calc(56*var(--u)) calc(44*var(--u));
+  padding-left:max(16px, env(safe-area-inset-left,0px), calc(140*var(--u)));
+  padding-right:max(16px, env(safe-area-inset-right,0px), calc(140*var(--u)));
+  background:var(--paper);opacity:0;visibility:hidden;transition:opacity .45s ease,visibility 0s linear .45s}
+.slide.is-on{opacity:1;visibility:visible;transition:opacity .45s ease}
+
+/* header */
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:calc(40*var(--u));flex:none}
+.hd-l{min-width:0;display:flex;flex-direction:column;gap:calc(16*var(--u))}
+.ttl{display:flex;align-items:center;gap:calc(20*var(--u));flex-wrap:wrap}
+.hd h1{margin:0;font-size:calc(56*var(--u));font-weight:700;letter-spacing:-.02em;line-height:1.1;color:var(--blue);text-wrap:balance}
+.hd .lead{margin:0;font-size:calc(26*var(--u));font-weight:500;line-height:1.35;color:var(--muted)}
+.logo{flex:none;width:calc(172*var(--u));height:auto;margin-top:calc(10*var(--u))}
+.tag{font:600 calc(15*var(--u))/1 var(--mono);letter-spacing:.14em;padding:calc(8*var(--u)) calc(14*var(--u));border-radius:999px;white-space:nowrap}
+.tag.draft{color:var(--orange-ink);background:var(--orange-soft)}
+.tag.plain{color:var(--blue);background:var(--gw)}
+
+/* cover */
+.cover{background:var(--blue);color:#FFFFFF;flex-direction:row;align-items:center;overflow:hidden;
+  padding-left:max(16px, env(safe-area-inset-left,0px), calc(103*var(--u)))}
+.c-txt{position:relative;z-index:1;flex:none;display:flex;flex-direction:column;gap:calc(14*var(--u))}
+.c-txt .eyebrow{margin:0;font-size:calc(36*var(--u));font-weight:400;letter-spacing:.02em}
+.c-txt h1{margin:0;white-space:nowrap;font-size:calc(96*var(--u));font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.c-txt .sub{margin:calc(18*var(--u)) 0 0;font-size:calc(34*var(--u));font-weight:400;letter-spacing:.02em;line-height:1.3;white-space:nowrap}
+.c-net{position:absolute;right:calc(-40*var(--u));top:50%;width:calc(1040*var(--u));height:calc(900*var(--u));transform:translateY(-50%) perspective(calc(2200*var(--u))) rotateY(-16deg) rotateX(6deg);pointer-events:none}
+.c-net svg{width:100%;height:100%;overflow:visible}
+.c-logo{position:absolute;left:max(16px, env(safe-area-inset-left,0px), calc(103*var(--u)));bottom:calc(80*var(--u));width:calc(172*var(--u))}
+
+/* mode tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:calc(8*var(--u))}
+.tab{appearance:none;border:0;cursor:pointer;display:flex;align-items:center;gap:calc(10*var(--u));height:calc(46*var(--u));padding:0 calc(16*var(--u));
+  border-radius:999px;background:var(--soft);color:var(--ink);font-size:calc(19*var(--u));font-weight:600;white-space:nowrap;transition:background-color .3s ease,color .3s ease}
+.tab:hover{background:var(--gw)}
+.tab svg{width:calc(28*var(--u));height:calc(10*var(--u));flex:none;overflow:visible}
+.tab[aria-selected="true"]{background:var(--blue);color:#FFFFFF}
+.tab[aria-selected="true"] line{stroke:#FFFFFF}
+.tab:focus-visible,.nd:focus-visible,.fs-btn:focus-visible,.fcard:focus-visible,.pop button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+.mrow{flex:none;display:flex;align-items:baseline;justify-content:space-between;gap:calc(40*var(--u));margin-top:calc(22*var(--u))}
+.mdesc{flex:1;margin:0;font-size:calc(23*var(--u));line-height:1.4;color:var(--ink);min-width:0}
+.hint{color:var(--muted)}
+
+/* ---------- diagram ---------- */
+.dg-host{position:relative;flex:1;min-height:0;margin-top:calc(26*var(--u))}
+.dg{position:relative;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+.row{display:flex;align-items:center;gap:calc(28*var(--u))}
+.lab{flex:none;width:calc(300*var(--u));display:flex;flex-direction:column;gap:calc(8*var(--u))}
+.lab b{font-size:calc(29*var(--u));font-weight:700;letter-spacing:-.01em;line-height:1.15;color:var(--ink)}
+.lab span{font:500 calc(14*var(--u))/1.2 var(--mono);letter-spacing:.2em;color:var(--muted)}
+.stack{flex:1;min-width:0;display:flex;flex-direction:column;gap:calc(18*var(--u))}
+.cells{flex:1;min-width:0;display:grid;gap:calc(18*var(--u))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.gsplit{column-gap:calc(24*var(--u))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.sep{align-self:stretch;margin:calc(-10*var(--u)) 0;background:repeating-linear-gradient(to bottom,#B9C6D8 0 calc(6*var(--u)),transparent calc(6*var(--u)) calc(12*var(--u)))}
+.dg.compact .gsplit{column-gap:calc(18*var(--u))}
+.bands{gap:calc(12*var(--u))}
+.band{background:var(--soft);border-radius:calc(18*var(--u));padding:calc(12*var(--u)) calc(14*var(--u)) calc(14*var(--u));display:flex;flex-direction:column;gap:calc(10*var(--u))}
+.band > span{font:500 calc(13*var(--u))/1 var(--mono);letter-spacing:.2em;color:var(--muted);text-align:center}
+.band .cells{gap:calc(10*var(--u))}
+
+.nd{appearance:none;position:relative;z-index:1;box-sizing:border-box;margin:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:calc(12*var(--u));
+  text-align:center;background:var(--paper);border:1.5px solid var(--line);border-radius:calc(16*var(--u));color:var(--ink);
+  transition:opacity .35s ease,border-color .3s ease,box-shadow .3s ease,background-color .3s ease}
+.nd:hover{border-color:var(--blue)}
+.nd .nt{min-width:0;text-wrap:balance}
+.nd.client,.nd.ext{height:calc(76*var(--u));font-size:calc(23*var(--u));font-weight:600;line-height:1.15;padding:0 calc(14*var(--u))}
+.nd.client svg,.nd.ext svg{width:calc(26*var(--u));height:calc(26*var(--u));flex:none;color:var(--ink)}
+.nd.ext{background:#FFF9F5;border-style:dashed;border-color:#E9BFA3}
+.nd.ext svg{color:var(--orange-ink)}
+.nd .ntag{position:absolute;top:calc(-9*var(--u));left:calc(18*var(--u));padding:0 calc(8*var(--u));background:var(--paper);font:600 calc(12*var(--u))/1.4 var(--mono);letter-spacing:.18em;color:var(--orange-ink)}
+.nd.gw{height:calc(84*var(--u));padding:0 calc(16*var(--u));background:var(--gw);border-color:var(--gw-line);border-top:calc(4*var(--u)) solid var(--blue);font-size:calc(22*var(--u));font-weight:700;line-height:1.22}
+.nd.svc{height:calc(64*var(--u));padding:0 calc(12*var(--u));font-size:calc(21*var(--u));font-weight:600;line-height:1.18}
+.nd.wrk{height:calc(56*var(--u));padding:0 calc(12*var(--u));background:var(--soft);border-style:dashed;border-color:#B9C6D8;font-size:calc(19*var(--u));font-weight:600;line-height:1.18}
+.nd.chip{height:calc(46*var(--u));border-radius:calc(12*var(--u));padding:0 calc(10*var(--u));font:500 calc(17*var(--u))/1 var(--mono);gap:calc(9*var(--u))}
+.nd.chip::before{content:"";width:calc(8*var(--u));height:calc(8*var(--u));border-radius:50%;background:var(--blue);flex:none}
+.nd .bdg{position:absolute;top:calc(-11*var(--u));right:calc(10*var(--u));font:600 calc(11*var(--u))/1 var(--mono);letter-spacing:.12em;padding:calc(5*var(--u)) calc(8*var(--u));
+  border-radius:calc(6*var(--u));background:var(--kc,var(--blue));color:#FFFFFF;opacity:0;transform:translateY(calc(4*var(--u)));transition:opacity .3s ease,transform .3s ease;pointer-events:none;white-space:nowrap}
+.nd.badge .bdg{opacity:1;transform:none}
+.dg.focus .nd:not(.lit){opacity:.3}
+.dg.focus .band{background:#F6F8FB}
+.nd.sel{border-color:var(--blue);box-shadow:0 0 0 calc(3*var(--u)) rgba(34,85,146,.28),0 calc(14*var(--u)) calc(30*var(--u)) rgba(15,23,43,.14)}
+
+.dg-svg{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;overflow:visible;opacity:1;transition:opacity .35s ease}
+.dg-svg.swap{opacity:0;transition:none}
+.e{fill:none;stroke-linecap:round}
+.e.halo{stroke:#FFFFFF;opacity:.85}
+.e.evt{stroke-dasharray:8 6;animation:march 1.1s linear infinite}
+.e.live{stroke-dasharray:1 7;animation:march .9s linear infinite}
+.e.obs,.e.sec{stroke-dasharray:4 5;animation:march 1.4s linear infinite}
+@keyframes march{to{stroke-dashoffset:-28}}
+
+/* compact diagram on flow slides */
+.dg.compact .lab{display:none}
+.dg.compact .nd.client,.dg.compact .nd.ext{height:calc(64*var(--u));font-size:calc(18*var(--u));padding:0 calc(8*var(--u))}
+.dg.compact .nd.client svg,.dg.compact .nd.ext svg{display:none}
+.dg.compact .nd .ntag{font-size:calc(10*var(--u));left:calc(10*var(--u))}
+.dg.compact .nd.gw{height:calc(74*var(--u));font-size:calc(19*var(--u))}
+.dg.compact .nd.svc{height:calc(58*var(--u));font-size:calc(18*var(--u))}
+.dg.compact .nd.wrk{height:calc(50*var(--u));font-size:calc(17*var(--u))}
+.dg.compact .nd.chip{height:calc(42*var(--u));font-size:calc(15*var(--u))}
+.dg.compact .cells{gap:calc(14*var(--u))}
+.dg.compact .band .cells{gap:calc(8*var(--u))}
+
+/* node popover */
+.pop{position:absolute;z-index:5;box-sizing:border-box;width:calc(410*var(--u));max-height:100%;overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:calc(18*var(--u));
+  box-shadow:0 calc(24*var(--u)) calc(60*var(--u)) rgba(15,23,43,.18);padding:calc(22*var(--u)) calc(24*var(--u));display:flex;flex-direction:column;gap:calc(12*var(--u))}
+.pop[hidden]{display:none}
+.pop-h{display:flex;align-items:flex-start;justify-content:space-between;gap:calc(12*var(--u))}
+.pop-h b{display:block;font-size:calc(25*var(--u));font-weight:700;line-height:1.2;color:var(--ink)}
+.pop-h em{display:block;margin-top:calc(6*var(--u));font:600 calc(12*var(--u))/1 var(--mono);font-style:normal;letter-spacing:.16em;color:var(--muted)}
+.pop-x{appearance:none;border:0;background:var(--soft);cursor:pointer;flex:none;width:calc(34*var(--u));height:calc(34*var(--u));border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+.pop-x svg{width:calc(16*var(--u));height:calc(16*var(--u))}
+.pop p{margin:0;font-size:calc(18*var(--u));line-height:1.45;color:var(--ink)}
+.pop h4{margin:calc(4*var(--u)) 0 0;font:600 calc(12*var(--u))/1 var(--mono);letter-spacing:.18em;color:var(--muted)}
+.pop ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(4*var(--u))}
+.pop li button{appearance:none;border:0;background:none;cursor:pointer;width:100%;display:flex;align-items:center;gap:calc(10*var(--u));padding:calc(5*var(--u)) calc(6*var(--u));border-radius:calc(8*var(--u));
+  font-size:calc(17*var(--u));font-weight:600;text-align:left}
+.pop li button:hover{background:var(--soft)}
+.pop li i{width:calc(10*var(--u));height:calc(10*var(--u));border-radius:50%;flex:none}
+.pop li span{margin-left:auto;font:500 calc(13*var(--u))/1 var(--mono);color:var(--muted)}
+.pop .cc{font-size:calc(15*var(--u));color:var(--muted);border-top:1px solid var(--line);padding-top:calc(10*var(--u))}
+
+/* flow index */
+.fgrid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:calc(24*var(--u));margin-top:calc(40*var(--u))}
+.fcard{appearance:none;text-align:left;cursor:default;box-sizing:border-box;display:flex;flex-direction:column;gap:calc(10*var(--u));padding:calc(22*var(--u)) calc(26*var(--u));
+  border-radius:calc(22*var(--u));background:var(--paper);border:1.5px dashed #C3CEDD;color:var(--ink);min-height:0}
+.fcard .no{font:600 calc(15*var(--u))/1 var(--mono);letter-spacing:.14em;color:var(--muted)}
+.fcard b{font-size:calc(29*var(--u));font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.fcard p{margin:0;font-size:calc(18*var(--u));line-height:1.4;color:var(--muted)}
+.fcard.doc{cursor:pointer;border:1.5px solid var(--blue);background:var(--paper);transition:box-shadow .3s ease,transform .3s ease}
+.fcard.doc:hover{box-shadow:0 calc(18*var(--u)) calc(40*var(--u)) rgba(34,85,146,.18);transform:translateY(calc(-3*var(--u)))}
+.fcard.doc .no{color:var(--blue)}
+.fcard .no::after{content:'';display:inline-block;vertical-align:middle;margin-left:calc(10*var(--u));width:calc(18*var(--u));height:calc(18*var(--u));border-radius:50%;background:var(--blue) no-repeat center/62% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round' d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E");opacity:0;transform:scale(.6);transition:opacity .3s ease,transform .3s ease}
+.fcard.seen .no::after{opacity:1;transform:none}
+.fcard.doc .st{background:var(--blue);color:#FFFFFF}
+.fcard .st{margin-top:auto;align-self:flex-start;font:600 calc(14*var(--u))/1 var(--mono);letter-spacing:.12em;padding:calc(8*var(--u)) calc(12*var(--u));border-radius:999px;background:var(--soft);color:var(--muted)}
+.fcard.ready{cursor:pointer;border:1.5px solid var(--gw-line);background:var(--gw);transition:box-shadow .3s ease,transform .3s ease}
+.fcard.ready:hover{box-shadow:0 calc(18*var(--u)) calc(40*var(--u)) rgba(34,85,146,.18);transform:translateY(calc(-3*var(--u)))}
+.fcard.ready .no{color:var(--blue)}
+.fcard.ready .st{background:var(--orange-soft);color:var(--orange-ink)}
+
+/* flow slide */
+.fbody{flex:1;min-height:0;display:flex;gap:calc(56*var(--u));margin-top:calc(28*var(--u))}
+.fl-l{flex:none;width:calc(560*var(--u));min-height:0;display:flex;flex-direction:column;gap:calc(20*var(--u))}
+.fsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:calc(8*var(--u));flex:none}
+.fs-btn{appearance:none;border:0;cursor:pointer;width:100%;box-sizing:border-box;display:flex;align-items:center;gap:calc(16*var(--u));height:calc(52*var(--u));padding:0 calc(18*var(--u));
+  border-radius:calc(14*var(--u));background:var(--soft);font-size:calc(22*var(--u));font-weight:600;text-align:left;color:var(--ink);transition:background-color .35s ease,color .35s ease,box-shadow .35s ease}
+.fsteps.many{gap:calc(6*var(--u))}
+.fsteps.many{gap:calc(5*var(--u))}
+.fsteps.many .fs-btn{height:calc(40*var(--u));font-size:calc(19*var(--u))}
+.fsteps.many .fs-btn span{width:calc(30*var(--u));height:calc(30*var(--u));font-size:calc(14*var(--u))}
+.fs-btn span{flex:none;width:calc(34*var(--u));height:calc(34*var(--u));border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--blue);font-size:calc(16*var(--u));font-weight:700}
+.fs-btn.done{color:var(--muted)}
+.fsteps li.sub{position:relative;padding-left:calc(40*var(--u))}
+.fsteps li.sub::before{content:"";position:absolute;left:calc(17*var(--u));top:calc(-6*var(--u));bottom:50%;width:calc(16*var(--u));border-left:2px solid #C3CEDD;border-bottom:2px solid #C3CEDD;border-bottom-left-radius:calc(8*var(--u))}
+.fsteps li.sub + li.sub::before{top:calc(-30*var(--u))}
+.fsteps li.sub .fs-btn span{width:auto;min-width:calc(30*var(--u));padding:0 calc(7*var(--u));border-radius:999px;box-sizing:border-box}
+.fs-btn.on{background:var(--blue);color:#FFFFFF;box-shadow:0 calc(14*var(--u)) calc(30*var(--u)) rgba(34,85,146,.28)}
+.fdet{flex:1;min-height:0;overflow:auto;box-sizing:border-box;border:1.5px solid var(--line);border-radius:calc(20*var(--u));padding:calc(20*var(--u)) calc(24*var(--u));display:flex;flex-direction:column;gap:calc(10*var(--u))}
+.fdet .k{font:600 calc(13*var(--u))/1 var(--mono);letter-spacing:.18em;color:var(--muted)}
+.krow{display:flex;align-items:center;justify-content:space-between;gap:calc(12*var(--u))}
+.state{font:600 calc(13*var(--u))/1 var(--mono);letter-spacing:.04em;padding:calc(6*var(--u)) calc(10*var(--u));border-radius:calc(8*var(--u));background:#E4F4EE;color:#0B6E52;white-space:nowrap}
+.fdet h3{margin:0;font-size:calc(27*var(--u));font-weight:700;letter-spacing:-.01em;line-height:1.15;color:var(--blue)}
+.fdet p{margin:0;font-size:calc(18.5*var(--u));line-height:1.45;color:var(--ink)}
+.tech{display:flex;flex-wrap:wrap;gap:calc(6*var(--u))}
+.tech span{font:500 calc(13*var(--u))/1 var(--mono);padding:calc(6*var(--u)) calc(9*var(--u));border-radius:calc(8*var(--u));background:var(--gw);color:var(--blue-ink)}
+.fdet .note{margin-top:auto;padding-top:calc(8*var(--u));border-top:1px solid var(--line);font-size:calc(14*var(--u));line-height:1.45;color:var(--muted)}
+.fdet .note b{color:var(--ink);font-weight:600}
+.hops{list-style:none;margin:calc(2*var(--u)) 0 0;padding:0;display:flex;flex-direction:column;gap:calc(4*var(--u))}
+.hops li{display:flex;align-items:center;gap:calc(10*var(--u));font-size:calc(16*var(--u));font-weight:600;color:var(--ink)}
+.hops li i{width:calc(10*var(--u));height:calc(10*var(--u));border-radius:50%;flex:none}
+.hops li .ar{color:var(--muted);font-weight:400}
+.hops li em{margin-left:auto;font:500 calc(13*var(--u))/1 var(--mono);font-style:normal;color:var(--muted)}
+.fl-r{flex:1;min-width:0;position:relative}
+.fl-r .dg-host{margin:0;height:100%}
+
+/* controls */
+.hud{position:fixed;right:max(16px, env(safe-area-inset-right,0px));bottom:max(14px, env(safe-area-inset-bottom,0px));z-index:8;display:flex;align-items:center;gap:6px;
+  padding:6px;border-radius:999px;background:rgba(15,23,43,.78);color:#FFFFFF;font:600 13px/1 var(--font);opacity:0;transition:opacity .3s ease}
+.hud.show,.hud:focus-within{opacity:1}
+.hud button{all:unset;cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:999px}
+.hud button:hover{background:rgba(255,255,255,.14)}
+.hud button:focus-visible{outline:2px solid #FFFFFF;outline-offset:1px}
+.hud svg{width:18px;height:18px}
+.hud .count{min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+.bar{position:fixed;left:0;bottom:0;height:3px;background:var(--orange);z-index:7;transition:width .35s ease;opacity:.85}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+</style>
+
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide cover" data-key="kapak">
+    <div class="c-txt">
+      <p class="eyebrow">HALKBANK</p>
+      <h1>Sistem Mimarisi</h1>
+      <p class="sub">SERVİSLER, VERİ AKIŞI VE İŞ AKIŞLARI</p>
+    </div>
+    <div class="c-net" aria-hidden="true"><svg id="coverNet" viewBox="0 0 1040 900"></svg></div>
+    <img class="c-logo" src="data:image/png;base64,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" alt="Ahlatcı Holding">
+  </section>
+
+  <section class="slide" id="topo" data-key="topoloji">
+    <header class="hd">
+      <div class="hd-l">
+        <div class="ttl"><h1>Genel Topoloji</h1></div>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Akış türü"></div>
+      </div>
+      <img class="logo" src="data:image/png;base64,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" alt="Ahlatcı Holding">
+    </header>
+    <div class="mrow"><p class="mdesc" id="mdesc"></p></div>
+    <div class="dg-host" id="topoHost"></div>
+  </section>
+
+  <section class="slide" id="flowIndex" data-key="akislar">
+    <header class="hd">
+      <div class="hd-l">
+        <h1>İş Akışları</h1>
+        <p class="lead">Her akışta müşterinin adımları solda, sistemin içinde hangi servislerin nasıl konuştuğu sağda gösterilir.</p>
+      </div>
+      <img class="logo" src="data:image/png;base64,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" alt="Ahlatcı Holding">
+    </header>
+    <div class="fgrid" id="fgrid"></div>
+  </section>
+
+</div>
+
+<div class="hud" id="hud" role="toolbar" aria-label="Sunum kontrolleri">
+  <button type="button" id="prev" aria-label="Önceki"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m15 5-7 7 7 7"/></svg></button>
+  <span class="count" id="count">1 / 1</span>
+  <button type="button" id="next" aria-label="Sonraki"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></svg></button>
+  <button type="button" id="fs" aria-label="Tam ekran (F)"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+<div class="bar" id="bar"></div>
+
+<script>
+(function(){
+/* =====================================================================
+   DATA. Everything below the data block is generic: new nodes, edges
+   and flows are added here only.
+   ===================================================================== */
+var KIND = {
+  req:  { label:'İstek',     c:'#225592' },
+  evt:  { label:'Olay',      c:'#E8650F' },
+  data: { label:'Veri',      c:'#5F6F86' },
+  live: { label:'Canlı',     c:'#0E9A72' },
+  obs:  { label:'Log',       c:'#7556C2' },
+  sec:  { label:'Dağıtım',   c:'#0E7490' }
+};
+var TYPE = { client:'İSTEMCİ', ext:'DIŞ SİSTEM', gw:'AĞ GEÇİDİ', svc:'SERVİS', wrk:'WORKER', chip:'ALTYAPI' };
+
+var N = {
+  web:     { t:'Web App', type:'client', ic:'desk', d:'Tarayıcıdan kullanılan müşteri uygulaması.' },
+  ios:     { t:'iOS App', type:'client', ic:'phone', d:'iPhone için müşteri uygulaması.' },
+  android: { t:'Android App', type:'client', ic:'phone', d:'Android için müşteri uygulaması.' },
+  bo:      { t:'Backoffice App', type:'client', ic:'panel', tag:'YÖNETİM', d:'Operasyon ve finans ekiplerinin müşteri, işlem ve onay süreçlerini yönettiği panel.' },
+  taurus:  { t:'Taurus', type:'ext', ic:'key', tag:'SAKLAMA', d:'Saklama sağlayıcısı. Yatırma adreslerini üretir, zincir işlemlerini takip eder ve çekimleri zincire gönderir.' },
+  bank:    { t:'Bankalar', type:'ext', ic:'bank', tag:'DIŞ SİSTEM', d:'Borsanın banka hesapları. Hareketler bankaya göre HTTP/XML veya SOAP/WCF ile sorgulanır, transferler aynı yoldan başlatılır.' },
+  risk:    { t:'Risk ve İzleme', type:'ext', ic:'shield', tag:'AYRI SİSTEM', d:'Risk kontrolü, işlem takibi ve şüpheli işlem izleme sistemleri. Olayları Flink üzerinden alır.' },
+  webgw:   { t:'Web API Gateway & Aggregator', s:'Web API GW', type:'gw', d:'Web uygulamasının tek giriş kapısı. Oturumu doğrular, isteği ilgili servislere iletir ve gelen yanıtları tek yanıtta birleştirir.' },
+  mobgw:   { t:'Mobile API Gateway & Aggregator', s:'Mobile API GW', type:'gw', d:'iOS ve Android uygulamalarının tek giriş kapısı. Oturumu doğrular, isteği servislere dağıtır, yanıtları birleştirir.' },
+  hotw:    { t:'Hot Wallet API', type:'gw', d:'Taurus ile köprü. Taurus bildirimlerini doğrulayıp (HMAC) Horse’a aktarır, çekim gönderimlerini ve adres whitelist onaylarını Taurus’a iletir.' },
+  ws:      { t:'Web Socket', type:'gw', d:'Açık uygulamalara fiyat, emir ve bildirim güncellemelerini anlık iletir.' },
+  bogw:    { t:'Backoffice API Gateway & Aggregator', s:'Backoffice API GW', type:'gw', d:'Backoffice panelinin giriş kapısı. Operasyon kullanıcılarının yetkisini kontrol eder, istekleri servislere iletir.' },
+  cwallet: { t:'Crypto Wallet API', type:'svc', d:'Kripto yatırma ve çekmenin ana servisi: adres, beyan, çekim talebi, kontroller ve operasyon onayları. Horse mesajlarını işleyen consumer’lar da burada.' },
+  cryptoW: { t:'Crypto Workers', type:'wrk', col:1, d:'Deposit Worker zincir onaylarını, Withdrawal Worker gönderime hazır çekimleri yaklaşık 30 saniyede bir tarar. AssetLock Worker çekim için süreli varlık kilidini yazar.' },
+  fwallet: { t:'Fiat Wallet API', type:'svc', d:'Banka ve cüzdan entegrasyon servisi (C# / .NET 10). TL yatırma ve çekme kayıtlarını, çekim taleplerini ve onaylarını yönetir.' },
+  user:    { t:'User API', type:'svc', d:'Kayıt, giriş, profil ve kimlik bilgileri.' },
+  balance: { t:'User Balance API', type:'svc', d:'Müşterinin TL ve kripto bakiyelerini sunar; emir ve çekimler için bakiyeyi bloke eder, gerekirse blokeyi geri alır.' },
+  trade:   { t:'Trade API', type:'svc', d:'Emir girişini alır, emir kontrollerini yapar, emri kaydeder ve Trade Engine’e iletir.' },
+  engine:  { t:'Trade Engine', type:'svc', col:6, d:'Emirleri bellekte işleyen eşleştirme motoru. Tahtanın açık olup olmadığını da sunar; sonuçları Kafka’ya ve Web Socket’e gönderir.' },
+  notif:   { t:'Notification API', type:'svc', d:'SMS, e-posta ve uygulama içi bildirimleri gönderir.' },
+  fiatW:   { t:'Fiat Workers', type:'wrk', col:2, d:'Banka hesaplarını düzenli sorgular, Horse kuyruğundaki yatırma ve çekme işlemlerini işler, bankaya transfer başlatır.' },
+  balW:    { t:'User Balance Workers', type:'wrk', col:4, d:'Olaylardan gelen bakiye değişikliklerini işler ve bakiyeleri günceller.' },
+  tradeW:  { t:'Trade Workers', type:'wrk', col:5, d:'Emir eşleşmelerini ve işlem sonuçlarını arka planda işler.' },
+  kafka:   { t:'Kafka', type:'chip', d:'Servisler arası olay akışı. Bir servis olayı yazar; bildirim, worker’lar ve Flink gibi ilgilenen sistemler okur.' },
+  flink:   { t:'Flink', type:'chip', d:'Olay akışını gerçek zamanlı işler; fiyat ve hacim gibi hesapları üretir.' },
+  questdb: { t:'QuestDB', type:'chip', d:'Zaman serisi veritabanı: işlem, fiyat ve grafik geçmişi. Trade Workers ve Flink yazar.' },
+  sql:     { t:'SQL Server', type:'chip', d:'Ana veritabanı. Servislerin kalıcı verisi burada tutulur.' },
+  redis:   { t:'Redis', type:'chip', d:'Hızlı önbellek: sık okunan veriler, oturumlar ve geçici kodlar.' },
+  horse:   { t:'Horse', type:'chip', d:'İş kuyruğu. İşlemler worker’lar tarafından sırayla işlenir; bekleme, karar, yeniden deneme ve hata kuyrukları burada. Web Socket canlı güncellemeleri de Horse’tan alır.' },
+  fluent:  { t:'Fluentbit', type:'chip', d:'Servislerin loglarını toplar ve ELK’ya iletir.' },
+  elk:     { t:'ELK', type:'chip', d:'Log arama, inceleme ve izleme ekranları (Elasticsearch, Logstash, Kibana).' },
+  prom:    { t:'Prometheus', type:'chip', d:'Servislerden metrik toplar ve alarm kurallarını çalıştırır.' },
+  vault:   { t:'Vault', type:'chip', d:'Şifre, anahtar ve sertifikaları güvenli saklar; servisler buradan okur.' },
+  devops:  { t:'Azure DevOps', type:'chip', d:'Kod deposu, derleme hatları ve sürüm yönetimi.' },
+  agents:  { t:'Build Agents', type:'chip', d:'Derleme ve dağıtım işlerini çalıştıran makineler.' }
+};
+
+var ROWS = [
+  { lab:'Kanallar ve Dış Sistemler', en:'CLIENT & EXTERNAL', grids:[{ cols:7, split:4, ids:['web','ios','android','bo','bank','risk','taurus'] }] },
+  { lab:'Ağ Geçidi Katmanı', en:'GATEWAY LAYER', grids:[{ cols:5, ids:['webgw','mobgw','ws','bogw','hotw'] }] },
+  { lab:'Uygulama Katmanı', en:'APPLICATION LAYER', grids:[{ cols:6, ids:['cwallet','fwallet','user','balance','trade','notif'] }, { cols:6, ids:['cryptoW','fiatW','balW','tradeW','engine'] }] },
+  { lab:'Altyapı ve Veri', en:'INFRASTRUCTURE & DATA', bands:[
+      { t:'MESAJLAŞMA · AKIŞ · VERİ', ids:['kafka','flink','questdb','sql','redis','horse'] },
+      { t:'GÖZLEMLENEBİLİRLİK · GÜVENLİK · CI / CD', ids:['fluent','elk','prom','vault','devops','agents'] } ] }
+];
+
+function fan(a, list, k){ return list.map(function(b){ return [a, b, k]; }); }
+function into(list, b, k){ return list.map(function(a){ return [a, b, k]; }); }
+var APIS = ['cwallet','fwallet','user','balance','trade','notif'];
+var RUNNERS = ['webgw','mobgw','ws','bogw','hotw'].concat(APIS, ['cryptoW','fiatW','balW','tradeW','engine']);
+
+var MODES = [
+  { id:'req', name:'İstek akışı', k:'req',
+    desc:'İstek uygulamanın ağ geçidine gelir; ağ geçidi oturumu doğrular, ilgili servislere dağıtır ve yanıtları birleştirip döner.',
+    edges:[['web','webgw','req'],['ios','mobgw','req'],['android','mobgw','req'],['bo','bogw','req']]
+      .concat(fan('webgw',['cwallet','fwallet','user','balance','trade'],'req'))
+      .concat(fan('mobgw',['cwallet','fwallet','user','balance','trade'],'req'))
+      .concat(fan('bogw',['cwallet','fwallet','user','notif'],'req'))
+      .concat(fan('fiatW',['bank','user','balance'],'req'))
+      .concat([['webgw','engine','req'],['mobgw','engine','req'],['trade','engine','req']])
+      .concat([['cwallet','taurus','req'],['cwallet','user','req'],['cwallet','balance','req'],['cryptoW','taurus','req'],['cryptoW','hotw','req'],['hotw','taurus','req'],['taurus','hotw','req']]) },
+  { id:'evt', name:'Olay ve kuyruk', k:'evt',
+    desc:'Servisler işi Kafka’ya olay olarak yazar, ilgili sistemler okur. Sırayla yapılacak işler Horse kuyruğundan worker’lara gider.',
+    edges:into(['user','cwallet','fwallet','trade','fiatW'],'kafka','evt')
+      .concat(fan('kafka',['balW','tradeW','notif','flink'],'evt'))
+      .concat([['flink','risk','evt'],['engine','kafka','evt'],['hotw','horse','evt'],['cwallet','horse','evt'],['horse','cwallet','evt'],['kafka','cryptoW','evt']])
+      .concat([['fwallet','horse','evt'],['horse','fiatW','evt']]) },
+  { id:'data', name:'Veri ve önbellek', k:'data',
+    desc:'Servisler ve worker’lar kalıcı veriyi SQL Server’a yazar. Sık okunan veriler Redis’te, fiyat geçmişi QuestDB’de tutulur.',
+    edges:into(['cwallet','fwallet','user','balance','trade','fiatW','balW','tradeW'],'sql','data')
+      .concat(into(['user','balance','trade','fiatW'],'redis','data'))
+      .concat([['tradeW','questdb','data'],['flink','questdb','data'],['cryptoW','questdb','data'],['cwallet','questdb','data']])
+      .concat([['cryptoW','sql','data'],['cryptoW','redis','data']]) },
+  { id:'live', name:'Canlı veri', k:'live',
+    desc:'Fiyat, emir ve bildirim güncellemeleri Horse üzerinden Web Socket’e, oradan açık uygulamalara anında iletilir.',
+    edges:into(['tradeW','flink','notif'],'horse','live')
+      .concat([['horse','ws','live'],['engine','ws','live']])
+      .concat(fan('ws',['web','ios','android'],'live')) },
+  { id:'obs', name:'Gözlemlenebilirlik', k:'obs',
+    desc:'Servis logları (Serilog) Fluentbit ile ELK’ya gider. Prometheus tüm servislerden metrik toplar ve alarm üretir.',
+    edges:[['fluent','elk','obs']], extra:RUNNERS.concat(['prom']), badge:'LOG · METRİK' },
+  { id:'sec', name:'Güvenlik ve CI/CD', k:'sec',
+    desc:'Servisler şifre ve anahtarlarını Vault’tan alır. Kod Azure DevOps’ta derlenir, Build Agent’lar servisleri ortama dağıtır.',
+    edges:[['devops','agents','sec']], extra:RUNNERS.concat(['vault']), badge:'VAULT' }
+];
+
+/* Flows: each step lists the hops [from, to, kind] it lights up on the diagram. */
+var FLOWS = [
+  { key:'musteri-edinimi', no:'01', name:'Müşteri Edinimi', status:'draft',
+    card:'Bireysel kayıt: form, NVI ve tarama kontrolleri, kimlik doğrulama, onay ve hesap açılışı.',
+    lead:'Yeni bir müşterinin kayıt olmasından hesaplarının açılmasına kadar geçen adımlar.',
+    steps:[
+      { t:'Kayıt başlatılır', d:'Müşteri mobil uygulamada kayıt formunu doldurur. İstek Mobile API Gateway üzerinden User API’ye gider.',
+        hops:[['ios','mobgw','req'],['android','mobgw','req'],['mobgw','user','req']] },
+      { t:'Telefon doğrulanır', d:'User API tek kullanımlık bir kod üretir ve kısa süreliğine Redis’te tutar. Kod, Notification API ile SMS olarak gönderilir.',
+        hops:[['user','redis','data'],['user','notif','req']] },
+      { t:'Kimlik bilgileri kaydedilir', d:'Müşteri kodu girer ve kimlik bilgilerini gönderir. User API kodu doğrular, müşteri kaydını veritabanına yazar.',
+        hops:[['mobgw','user','req'],['user','redis','data'],['user','sql','data']] },
+      { t:'Operasyon onayı', d:'Gerekli durumlarda operasyon ekibi başvuruyu Backoffice üzerinden inceler ve onaylar.',
+        hops:[['bo','bogw','req'],['bogw','user','req'],['user','sql','data']] },
+      { t:'Hesaplar açılır', d:'User API “müşteri onaylandı” olayını Kafka’ya yazar. User Balance Workers olayı okur ve müşterinin TL ve kripto bakiye kayıtlarını başlatır.',
+        hops:[['user','kafka','evt'],['kafka','balW','evt'],['balW','sql','data']] },
+      { t:'Müşteri bilgilendirilir', d:'Notification API aynı olayı okuyup hoş geldin bildirimini gönderir. Açık uygulama Web Socket ile anında güncellenir.',
+        hops:[['kafka','notif','evt'],['notif','horse','live'],['horse','ws','live'],['ws','ios','live'],['ws','android','live']] }
+    ] },
+
+  { key:'tl-yatirma', no:'02', name:'TL Yatırma', status:'doc', svc:'FIAT WALLET · C# / .NET 10',
+    card:'Bankaya gelen paranın müşteriyle eşleşip TL bakiyesine yansıması.',
+    lead:'Müşterinin bankadan gönderdiği TL’nin borsa hesabına gelip cüzdan bakiyesine yansıması.',
+    note:'<b>Hata yönetimi:</b> Horse kuyruğunda yeniden deneme ve hata kuyruğu var. Servisler arası geçici HTTP hatalarında Polly ile yeniden denenir.',
+    steps:[
+      { t:'Banka hareketi alınır', d:'Fiat Workers borsanın banka hesaplarını belirli aralıklarla sorgular ve gelen transferleri alır.',
+        tech:['.NET BackgroundService','HTTP/XML','SOAP/WCF'],
+        hops:[['fiatW','bank','req'],['bank','fiatW','data']] },
+      { t:'Standartlaştırılır ve kaydedilir', d:'Her bankanın formatı ortak modele çevrilir: tutar, gönderen, kimlik veya vergi numarası, dekont. Yatırma kaydı açılır ve durumu takip edilmeye başlanır.',
+        tech:['C# banka adaptörleri','MediatR','EF Core','SQL Server'],
+        hops:[['fiatW','sql','data']] },
+      { t:'Müşteri eşleştirilir', d:'Gönderenin kimlik veya vergi numarasıyla User API’den müşteri bulunur. Müşterinin hesabının açık olduğu ve günlük, aylık limitler kontrol edilir.',
+        tech:['User API','HTTP'],
+        hops:[['fiatW','user','req']] },
+      { t:'Kuyruğa alınır', d:'Yatırma işlemi Horse kuyruğuna gönderilir. Sonraki adımları kuyruğu sırayla okuyan worker’lar yapar.',
+        tech:['Horse','.NET Workers'],
+        hops:[['fiatW','horse','evt'],['horse','fiatW','evt']] },
+      { sub:true, t:'Gerekirse finans onayı', d:'Kayıtlı müşteri yoksa, hesap dondurulmuş ya da kapalıysa veya limit aşılıyorsa işlem finans ekibine düşer. Ekip onaylarsa devam eder, onaylamazsa para iade edilir.',
+        tech:['Backoffice','Yönetim API’leri'],
+        hops:[['bo','bogw','req'],['bogw','fwallet','req'],['fwallet','sql','data']] },
+      { sub:true, t:'Bakiyeye yansıtılır', d:'Balance API’ye yatırma isteği gönderilir. Dönen işlem numarası kaydedilir ve işlem tamamlanır.',
+        tech:['Balance API','REST/HTTP','SQL Server'],
+        hops:[['fiatW','balance','req'],['fiatW','sql','data']] },
+      { sub:true, t:'Bildirim ve izleme', d:'İşlem olayları Kafka’ya yazılır: müşteriye bildirim gider, olay Flink üzerinden işlem takibi ve şüpheli işlem izleme sistemlerine ulaşır.',
+        tech:['Kafka','Flink','Serilog'],
+        hops:[['fiatW','kafka','evt'],['kafka','notif','evt'],['kafka','flink','evt'],['flink','risk','evt']] }
+    ] },
+
+  { key:'tl-cekme', no:'03', name:'TL Çekme', status:'doc', svc:'FIAT WALLET · C# / .NET 10',
+    card:'Çekim talebi, risk ve onay kontrolleri, banka transferi ve bakiye güncellemesi.',
+    lead:'Müşterinin TL bakiyesini kendi banka hesabına çekmesi.',
+    note:'<b>Hata yönetimi:</b> Horse kuyruğunda yeniden deneme ve hata kuyruğu var. Servisler arası geçici HTTP hatalarında Polly ile yeniden denenir.',
+    steps:[
+      { t:'Talep alınır', d:'Müşteri IBAN ve tutarı girip beyanı onaylar; limit dışındaysa uyarıyla reddedilir. Tutar, IBAN ve cüzdan işlem numarası Fiat Wallet API’ye gelir.',
+        tech:['ASP.NET Core Web API','REST'],
+        hops:[['ios','mobgw','req'],['android','mobgw','req'],['mobgw','fwallet','req']] },
+      { t:'Banka seçilir, kayıt açılır', d:'IBAN’a göre aynı bankadaki hesap ya da varsayılan EFT hesabı seçilir. Çekim kaydı oluşturulur.',
+        tech:['MediatR','EF Core','SQL Server'],
+        hops:[['fwallet','sql','data']] },
+      { t:'Risk kontrolüne gönderilir', d:'Çekim bilgileri Kafka’ya yazılır, Flink üzerinden risk sistemine ulaşır. Talep 60 saniyelik bekleme kuyruğuna alınır.',
+        tech:['Kafka','Flink','Horse'],
+        hops:[['fwallet','kafka','evt'],['kafka','flink','evt'],['flink','risk','evt'],['fwallet','horse','evt']] },
+      { t:'Çekim engeli kontrol edilir', d:'Bekleme bitince müşterinin aktif çekim engeli Redis’te kontrol edilir. Engel varsa işlem durur ve Balance API bilgilendirilir.',
+        tech:['Redis','HTTP'],
+        hops:[['horse','fiatW','evt'],['fiatW','redis','data'],['fiatW','balance','req']] },
+      { t:'Karar ve onay', d:'Talep karar kuyruğuna geçer. 1.250.000 TL üzeri çekimler manuel onaya düşer. Onayda bankanın uygunluğu, EFT saatleri, tatiller ve FAST tutar sınırı kontrol edilir.',
+        tech:['Horse','Yönetim API’leri','MediatR','SQL Server'],
+        hops:[['fiatW','horse','evt'],['bo','bogw','req'],['bogw','fwallet','req'],['fwallet','sql','data']] },
+      { t:'Bankaya gönderilir', d:'Onaylanan işlem kuyruktan alınır ve ilgili banka entegrasyonuyla transfer başlatılır.',
+        tech:['.NET Workers','Horse','HTTP','SOAP/WCF'],
+        hops:[['horse','fiatW','evt'],['fiatW','bank','req']] },
+      { t:'Sonuç işlenir', d:'Banka sonucu kaydedilir. Başarılı transferde Balance API’ye çekimin tamamlandığı bildirilir.',
+        tech:['EF Core','SQL Server','REST/HTTP'],
+        hops:[['bank','fiatW','data'],['fiatW','sql','data'],['fiatW','balance','req']] },
+      { t:'Bildirim ve kayıt', d:'İşlem ve bildirim olayları Kafka’ya yayımlanır, müşteri bilgilendirilir. Hata ve operasyon kayıtları tutulur.',
+        tech:['Kafka','Flink','Serilog'],
+        hops:[['fiatW','kafka','evt'],['kafka','notif','evt'],['kafka','flink','evt'],['flink','risk','evt']] }
+    ] },
+
+  { key:'kripto-yatirma', no:'04', name:'Kripto Yatırma', status:'doc', svc:'TAURUS · HOT WALLET',
+    card:'Adres, zincir onayı, beyan ve kontroller, bakiyeye geçiş ve süreli çekim kilidi.',
+    lead:'Dış cüzdandan gelen kriptonun bakiyeye geçmesi. Bakiye, zincir onayı ve kontroller bitince değişir.',
+    steps:[
+      { t:'Yatırma adresi alınır', state:'Adres hazır', d:'Müşteri yatırma adresi ister. Crypto Wallet API adresi Taurus’ta üretir; aktif adres varsa onu kullanır. Adres kaydedilir, fraud olayı yayımlanır.',
+        tech:['SQL · DepositAddresses','Kafka · Fraud_CryptoDepositAddress'],
+        hops:[['ios','mobgw','req'],['mobgw','cwallet','req'],['cwallet','taurus','req'],['cwallet','sql','data'],['cwallet','kafka','evt']] },
+      { t:'İşlem yakalanır', state:'WaitingConfirmation', d:'Müşteri kriptoyu zincirden gönderir, Taurus bildirir. Hot Wallet API bildirimi doğrulayıp Horse’a aktarır; işlem adres üzerinden müşteriyle eşleşir ve kaydedilir.',
+        tech:['HMAC doğrulama','Horse · DepositTriggered','SQL · DepositTransactions'],
+        hops:[['taurus','hotw','req'],['hotw','horse','evt'],['horse','cwallet','evt'],['cwallet','sql','data']] },
+      { t:'Zincir onayı ve limit', state:'PendingDeclaration', d:'Crypto Workers yaklaşık 30 saniyede bir Taurus’tan onay bilgisini alır ve limiti hesaplar. Limit sorunu varsa işlem operasyon onayına düşer.',
+        tech:['Deposit Worker','SQL · DepositRequirements'],
+        hops:[['cryptoW','taurus','req'],['cryptoW','sql','data']] },
+      { t:'Müşteri beyanı', state:'WaitingRequirementsProgress', d:'Müşteri yatırma beyanını verir. Beyan kaydedilir, fraud olayı yayımlanır ve kontroller için Horse’a bekleme mesajı gider.',
+        tech:['SQL · DepositDeclarations','Kafka · Fraud_CryptoDepositDeclaration','Horse'],
+        hops:[['mobgw','cwallet','req'],['cwallet','sql','data'],['cwallet','kafka','evt'],['cwallet','horse','evt']] },
+      { t:'Kontroller ve onay', state:'Processing', d:'60 saniye sonra Horse işi geri verir; User API’den yatırma blokları kontrol edilir. Sorun varsa işlem operasyon onayına düşer, ret ve revizyon buradan yönetilir.',
+        tech:['Horse','User API','Backoffice'],
+        hops:[['horse','cwallet','evt'],['cwallet','user','req'],['bo','bogw','req'],['bogw','cwallet','req']] },
+      { t:'Bakiyeye geçer', state:'Completed', d:'Balance API’ye yatırma çağrısı yapılır. Başarılıysa işlem tamamlanır ve Kafka’ya yayımlanır.',
+        tech:['Horse · DepositCompleteEvent','Balance API','Kafka · CryptoTransactions'],
+        hops:[['horse','cwallet','evt'],['cwallet','balance','req'],['cwallet','sql','data'],['cwallet','kafka','evt']] },
+      { t:'Süreli çekim kilidi', state:'Kilit yazıldı', d:'AssetLock Worker olayı okur ve yatırılan varlık için çekim kilidi koyar: ilk aktivitede 72, sonrakilerde 48 saat.',
+        tech:['AssetLock Worker','Redis · ayar','QuestDB · user_asset_locks'],
+        hops:[['kafka','cryptoW','evt'],['cryptoW','redis','data'],['cryptoW','questdb','data'],['cryptoW','sql','data']] }
+    ] },
+  { key:'kripto-cekme', no:'05', name:'Kripto Çekme', status:'doc', svc:'TAURUS · HOT WALLET',
+    card:'Ön doğrulama, talep, kontroller ve onay, Taurus’a gönderim ve finansal kapanış.',
+    lead:'Müşterinin kriptosunu dış adrese göndermesi. Bakiye, zincir işlemi onaylanınca kapanır.',
+    steps:[
+      { t:'Ön doğrulama', state:'Kayıt yok', d:'Limit, kara liste, ağ, minimum tutar, memo ve ücret kontrol edilir; QuestDB’den kilitli tutar okunur. Bu adım kayıt açmaz, ücret ve kullanılabilir tutarı döner.',
+        tech:['Validasyon','QuestDB · kilitli tutar'],
+        hops:[['ios','mobgw','req'],['mobgw','cwallet','req'],['cwallet','questdb','data']] },
+      { t:'Talep oluşturulur', state:'Creating', d:'Müşteri kayıtlı adrese ya da beyanla yeni adrese çekim ister. İşlem kaydı açılır. Yeni adres gerekiyorsa Taurus’ta whitelist’e eklenip onaylanır.',
+        tech:['SQL · WithdrawalTransactions','Whitelist onayı'],
+        hops:[['mobgw','cwallet','req'],['cwallet','sql','data'],['cwallet','hotw','req'],['hotw','taurus','req']] },
+      { t:'Kontroller başlar', state:'Creating', d:'Talep kontrol için Horse kuyruğuna alınır. Çekim bilgileri Kafka’ya yazılır, Flink üzerinden risk sistemine ulaşır. Ardından User API’den müşterinin çekim engeli, ayrıca güvenlik ve VIP kontrolleri yapılır.',
+        tech:['Horse','Kafka','Flink','User API'],
+        hops:[['cwallet','horse','evt'],['cwallet','kafka','evt'],['kafka','flink','evt'],['flink','risk','evt'],['horse','cwallet','evt'],['cwallet','user','req']] },
+      { sub:true, t:'Gerekirse operasyon onayı', state:'ApprovalWaiting', d:'Onay gereken kontroller operasyon ekibine düşer. Ekip onaylar ya da iptal eder; iptalde bakiye Balance API’de serbest bırakılır.',
+        tech:['Backoffice','SQL · WithdrawalRequirements'],
+        hops:[['bo','bogw','req'],['bogw','cwallet','req'],['cwallet','sql','data']] },
+      { t:'Gönderime hazır', state:'ReadyToDispatch', d:'Tüm kontroller onaylanınca işlem gönderime hazır olur. Crypto Workers yaklaşık 30 saniyede bir hazır işlemleri tarar.',
+        tech:['Withdrawal Worker'],
+        hops:[['cryptoW','sql','data']] },
+      { t:'Taurus’a gönderilir', state:'Pending', d:'Worker transfer talebini Hot Wallet API üzerinden Taurus’a gönderir. Hata olursa işlem ProcessFailed olur ve tekrar gönderime açılabilir.',
+        tech:['Hot Wallet','Taurus transfer API'],
+        hops:[['cryptoW','hotw','req'],['hotw','taurus','req'],['cryptoW','sql','data']] },
+      { t:'Sonuç takip edilir', state:'Processing', d:'Taurus sonucu bildirir. Hot Wallet API bildirimi Horse’a aktarır; işlem bulunur, TxHash ve durum güncellenir.',
+        tech:['Horse · WithdrawalTriggered','SQL · TxHash'],
+        hops:[['taurus','hotw','req'],['hotw','horse','evt'],['horse','cwallet','evt'],['cwallet','sql','data']] },
+      { t:'Finansal kapanış', state:'Completed', d:'Taurus onaylayınca Balance API’de çekim tamamlanır (tutar ve ücret). Bildirim ve işlem olayları Kafka’ya gider, kayıt kapanır.',
+        tech:['Balance API','Kafka · CryptoTransactions','Kafka · Notification'],
+        hops:[['cwallet','balance','req'],['cwallet','kafka','evt'],['kafka','notif','evt'],['cwallet','sql','data']] }
+    ] },
+  { key:'alim-satim', no:'06', name:'Alım Satım', status:'doc', svc:'TRADE ENGINE',
+    card:'Ön kontroller, bakiye blokesi, emrin kaydı, eşleştirme ve sonucun yayılması.',
+    lead:'Müşterinin kripto alım veya satım emrinin kontrolden eşleşmeye kadar yolculuğu.',
+    steps:[
+      { t:'Emir talebi gelir', d:'Müşteri kripto alım veya satım emri verir. İstek uygulamanın ağ geçidine gelir; ağ geçidi akışın geri kalanını yönetir.',
+        hops:[['web','webgw','req'],['ios','mobgw','req'],['android','mobgw','req']] },
+      { t:'Ön kontroller', d:'Ağ geçidi müşterinin durumunu User API’den, tahtanın açık olduğunu Trade Engine’den kontrol eder. Biri uymazsa talep reddedilir.',
+        hops:[['mobgw','user','req'],['mobgw','engine','req']] },
+      { t:'Bakiye bloke edilir', d:'Emrin tutarı kadar bakiye bloke edilir. Bloke başarısızsa talep reddedilir.',
+        hops:[['mobgw','balance','req']] },
+      { t:'Emir kaydedilir', d:'Trade API emir kontrollerini yapar ve emri veritabanına kaydeder.',
+        hops:[['mobgw','trade','req'],['trade','sql','data']] },
+      { t:'Emir eşleştirilir', d:'Trade API emri Trade Engine’e iletir ve cevap bekler. Motor emri bellekte işler.',
+        hops:[['trade','engine','req']] },
+      { t:'Sonuçlar yayılır', d:'Trade Engine sonuçları Kafka’ya ve Web Socket’e gönderir. Açık ekranlar anında güncellenir.',
+        hops:[['engine','kafka','evt'],['engine','ws','live'],['ws','web','live'],['ws','ios','live'],['ws','android','live']] },
+      { t:'Sonuç müşteriye döner', d:'Trade Engine sonucu Trade API’ye döner, oradan ağ geçidi üzerinden müşteriye iletilir.',
+        hops:[['engine','trade','req'],['trade','mobgw','req'],['mobgw','ios','req'],['mobgw','android','req']] },
+      { t:'Hata olursa geri alınır', d:'Emir kontrolü veya Trade Engine başarısız olursa emir kaydı geri alınır, bakiye blokesi çözülür ve müşteriye ret döner.',
+        hops:[['trade','sql','data'],['mobgw','balance','req'],['mobgw','ios','req'],['mobgw','android','req']] }
+    ] }
+];
+
+/* ===================================================================== */
+var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+var SVGNS = 'http://www.w3.org/2000/svg';
+var ICON = {
+  desk:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></g></svg>',
+  phone:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></g></svg>',
+  panel:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M7 12l3-3 2 2 4-4"/></g></svg>',
+  bank:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3 20.5h18"/></g></svg>',
+  key:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M16 7l3 3M14 9l2 2"/></g></svg>',
+  shield:'<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5.5c0 4.3 3 7.7 7 9.5 4-1.8 7-5.2 7-9.5V6z"/><path d="m9 12 2 2 4-4"/></g></svg>'
+};
+var X_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></svg>';
+
+var ALL = [];
+(function(){ var seen = {};
+  MODES.forEach(function(m){ m.edges.forEach(function(e){ var k = e.join('|'); if (!seen[k]) { seen[k] = 1; ALL.push(e); } }); });
+})();
+function nm(id){ return N[id].s || N[id].t; }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+function unit(){ return Math.min(innerWidth / 1920, innerHeight / 1080); }
+
+/* ---------- diagram ---------- */
+var DGS = [], dgSeq = 0;
+function buildDiagram(host, compact){
+  var dg = { id:'d' + (dgSeq++), nodes:{}, state:{ edges:[], lit:null }, sel:null };
+  var el = document.createElement('div'); el.className = 'dg' + (compact ? ' compact' : '');
+  var html = '';
+  ROWS.forEach(function(r){
+    html += '<div class="row"><div class="lab"><b>' + r.lab + '</b><span>' + r.en + '</span></div>';
+    if (r.bands) {
+      html += '<div class="stack bands">';
+      r.bands.forEach(function(b){ html += '<div class="band"><span>' + b.t + '</span><div class="cells g6">' + b.ids.map(nodeHtml).join('') + '</div></div>'; });
+      html += '</div>';
+    } else {
+      html += '<div class="stack">';
+      r.grids.forEach(function(g){
+        var cells = g.ids.map(nodeHtml);
+        if (g.split) cells.splice(g.split, 0, '<i class="sep" aria-hidden="true"></i>');
+        html += '<div class="cells ' + (g.split ? 'gsplit' : 'g' + g.cols) + '"' + (g.split ? ' style="grid-template-columns:repeat(' + g.split + ',minmax(0,1fr)) 2px repeat(' + (g.cols - g.split) + ',minmax(0,1fr))"' : '') + '>' + cells.join('') + '</div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+  el.innerHTML = html;
+  var svg = document.createElementNS(SVGNS, 'svg'); svg.setAttribute('class', 'dg-svg'); svg.setAttribute('aria-hidden', 'true');
+  el.appendChild(svg);
+  var pop = document.createElement('div'); pop.className = 'pop'; pop.hidden = true; pop.setAttribute('role', 'dialog');
+  el.appendChild(pop);
+  host.appendChild(el);
+  el.querySelectorAll('.nd').forEach(function(b){ dg.nodes[b.getAttribute('data-id')] = b; });
+  dg.el = el; dg.svg = svg; dg.pop = pop;
+  el.addEventListener('click', function(ev){
+    var x = ev.target.closest('.pop-x'); if (x) { clearSel(dg); return; }
+    var g = ev.target.closest('[data-go]'); if (g) { selectNode(dg, g.getAttribute('data-go')); return; }
+    if (ev.target.closest('.pop')) return;
+    var n = ev.target.closest('.nd');
+    if (n) { var id = n.getAttribute('data-id'); if (dg.sel === id) clearSel(dg); else selectNode(dg, id); return; }
+    if (dg.sel) clearSel(dg);
+  });
+  DGS.push(dg);
+  return dg;
+}
+function nodeHtml(id){
+  var n = N[id], cls = 'nd ' + n.type, style = n.col ? ' style="grid-column:' + n.col + '"' : '';
+  var inner = (n.ic ? ICON[n.ic] : '') + '<span class="nt">' + esc(n.t) + '</span>' + (n.tag ? '<span class="ntag">' + n.tag + '</span>' : '') + '<span class="bdg"></span>';
+  return '<button type="button" class="' + cls + '" data-id="' + id + '"' + style + ' aria-label="' + esc(n.t) + '">' + inner + '</button>';
+}
+
+function rel(dg, id){
+  var r = dg.nodes[id].getBoundingClientRect(), b = dg.el.getBoundingClientRect();
+  var l = r.left - b.left, t = r.top - b.top;
+  return { l:l, t:t, w:r.width, h:r.height, r:l + r.width, b:t + r.height, cx:l + r.width / 2, cy:t + r.height / 2 };
+}
+
+function draw(dg, edges, lit, badge){
+  var svg = dg.svg, u = unit(), W = dg.el.clientWidth, H = dg.el.clientHeight;
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.innerHTML = '';
+  var sw = Math.max(1.4, 2.3 * u);
+  var defs = document.createElementNS(SVGNS, 'defs');
+  Object.keys(KIND).forEach(function(k){
+    defs.insertAdjacentHTML('beforeend', '<marker id="' + dg.id + '-ah-' + k + '" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.6" markerHeight="4.6" orient="auto"><path d="M0.5,1 L9,5 L0.5,9 z" fill="' + KIND[k].c + '"/></marker>');
+  });
+  svg.appendChild(defs);
+
+  var R = {};
+  function rr(id){ return R[id] || (R[id] = rel(dg, id)); }
+  var E = edges.map(function(e){
+    var a = rr(e[0]), b = rr(e[1]), sa, sb;
+    if (b.t >= a.b - 4) { sa = 'b'; sb = 't'; }
+    else if (b.b <= a.t + 4) { sa = 't'; sb = 'b'; }
+    else {
+      var gapx = b.l >= a.r - 4 ? b.l - a.r : a.l - b.r;
+      if (gapx > 0.5 * Math.min(a.w, b.w)) { sa = 't'; sb = 't'; }
+      else if (b.l >= a.r - 4) { sa = 'r'; sb = 'l'; }
+      else { sa = 'l'; sb = 'r'; }
+    }
+    return { a:e[0], b:e[1], k:e[2], ra:a, rb:b, sa:sa, sb:sb };
+  });
+  var G = {};
+  E.forEach(function(e){
+    (G[e.a + '|' + e.sa] = G[e.a + '|' + e.sa] || []).push({ e:e, end:'a', o:e.rb });
+    (G[e.b + '|' + e.sb] = G[e.b + '|' + e.sb] || []).push({ e:e, end:'b', o:e.ra });
+  });
+  Object.keys(G).forEach(function(key){
+    var list = G[key], side = key.split('|')[1], vert = side === 't' || side === 'b';
+    list.sort(function(p, q){ return vert ? p.o.cx - q.o.cx : p.o.cy - q.o.cy; });
+    var n = list.length;
+    list.forEach(function(it, i){ it.e['f' + it.end] = n === 1 ? 0.5 : 0.24 + 0.52 * i / (n - 1); });
+  });
+  function pt(r, side, f, gap){
+    if (side === 'b') return [r.l + r.w * f, r.b + gap];
+    if (side === 't') return [r.l + r.w * f, r.t - gap];
+    if (side === 'r') return [r.r + gap, r.t + r.h * f];
+    return [r.l - gap, r.t + r.h * f];
+  }
+  var gHalo = document.createElementNS(SVGNS, 'g'), gLine = document.createElementNS(SVGNS, 'g'), gDot = document.createElementNS(SVGNS, 'g');
+  svg.appendChild(gHalo); svg.appendChild(gLine); svg.appendChild(gDot);
+  E.forEach(function(e){
+    var p1 = pt(e.ra, e.sa, e.fa, 2), p2 = pt(e.rb, e.sb, e.fb, 3), d;
+    if (e.sa === 't' && e.sb === 't') { var hh = Math.max(28 * u, Math.min(64 * u, Math.abs(p2[0] - p1[0]) * 0.22)), ty = Math.min(p1[1], p2[1]) - hh; d = 'M' + p1[0] + ' ' + p1[1] + ' C' + p1[0] + ' ' + ty + ' ' + p2[0] + ' ' + ty + ' ' + p2[0] + ' ' + p2[1]; }
+    else if (e.sa === 't' || e.sa === 'b') { var my = (p1[1] + p2[1]) / 2; d = 'M' + p1[0] + ' ' + p1[1] + ' C' + p1[0] + ' ' + my + ' ' + p2[0] + ' ' + my + ' ' + p2[0] + ' ' + p2[1]; }
+    else { var mx = (p1[0] + p2[0]) / 2; d = 'M' + p1[0] + ' ' + p1[1] + ' C' + mx + ' ' + p1[1] + ' ' + mx + ' ' + p2[1] + ' ' + p2[0] + ' ' + p2[1]; }
+    var c = KIND[e.k].c;
+    var h = document.createElementNS(SVGNS, 'path'); h.setAttribute('d', d); h.setAttribute('class', 'e halo'); h.setAttribute('stroke-width', sw * 3.4); gHalo.appendChild(h);
+    var p = document.createElementNS(SVGNS, 'path'); p.setAttribute('d', d); p.setAttribute('class', 'e ' + e.k); p.setAttribute('stroke', c); p.setAttribute('stroke-width', sw);
+    p.setAttribute('marker-end', 'url(#' + dg.id + '-ah-' + e.k + ')'); gLine.appendChild(p);
+    if (!reduce) {
+      var len = p.getTotalLength(), dur = Math.max(1.1, Math.min(3.4, len / (300 * u)));
+      var dot = document.createElementNS(SVGNS, 'circle');
+      dot.setAttribute('r', Math.max(2.6, 4.6 * u)); dot.setAttribute('fill', c); dot.setAttribute('stroke', '#FFFFFF'); dot.setAttribute('stroke-width', Math.max(1, 1.6 * u));
+      var am = document.createElementNS(SVGNS, 'animateMotion');
+      am.setAttribute('dur', dur.toFixed(2) + 's'); am.setAttribute('repeatCount', 'indefinite'); am.setAttribute('path', d);
+      am.setAttribute('begin', (-Math.random() * dur).toFixed(2) + 's');
+      dot.appendChild(am); gDot.appendChild(dot);
+    }
+  });
+
+  var litSet = null;
+  if (lit) { litSet = {}; lit.forEach(function(id){ litSet[id] = 1; }); }
+  dg.el.classList.toggle('focus', !!litSet);
+  Object.keys(dg.nodes).forEach(function(id){
+    var nd = dg.nodes[id];
+    nd.classList.toggle('lit', !!(litSet && litSet[id]));
+    var on = !!(badge && badge.ids.indexOf(id) >= 0);
+    nd.classList.toggle('badge', on);
+    if (on) { nd.querySelector('.bdg').textContent = badge.text; nd.style.setProperty('--kc', badge.c); }
+  });
+}
+function show(dg, edges, lit, badge){
+  dg.state = { edges:edges, lit:lit, badge:badge };
+  dg.svg.classList.add('swap'); void dg.svg.offsetWidth;
+  if (dg.sel) { dg.sel = null; dg.pop.hidden = true; markSel(dg); }
+  draw(dg, edges, lit, badge);
+  dg.svg.classList.remove('swap');
+}
+function nodesOf(edges, extra){
+  var s = {}; edges.forEach(function(e){ s[e[0]] = 1; s[e[1]] = 1; });
+  (extra || []).forEach(function(id){ s[id] = 1; });
+  return Object.keys(s);
+}
+function markSel(dg){ Object.keys(dg.nodes).forEach(function(id){ dg.nodes[id].classList.toggle('sel', id === dg.sel); }); }
+
+function selectNode(dg, id){
+  dg.sel = id; markSel(dg);
+  var edges = ALL.filter(function(e){ return e[0] === id || e[1] === id; });
+  dg.svg.classList.add('swap'); void dg.svg.offsetWidth;
+  draw(dg, edges, nodesOf(edges, [id]), null);
+  dg.svg.classList.remove('swap');
+  var n = N[id], ins = edges.filter(function(e){ return e[1] === id; }), outs = edges.filter(function(e){ return e[0] === id; });
+  function li(e, other){ return '<li><button type="button" data-go="' + other + '"><i style="background:' + KIND[e[2]].c + '"></i>' + esc(nm(other)) + '<span>' + KIND[e[2]].label.toUpperCase() + '</span></button></li>'; }
+  var h = '<div class="pop-h"><div><b>' + esc(n.t) + '</b><em>' + TYPE[n.type] + '</em></div><button type="button" class="pop-x" aria-label="Kapat">' + X_ICON + '</button></div>'
+    + '<p>' + esc(n.d) + '</p>';
+  if (ins.length) h += '<h4>GELEN</h4><ul>' + ins.map(function(e){ return li(e, e[0]); }).join('') + '</ul>';
+  if (outs.length) h += '<h4>GİDEN</h4><ul>' + outs.map(function(e){ return li(e, e[1]); }).join('') + '</ul>';
+  if (RUNNERS.indexOf(id) >= 0) h += '<p class="cc">Logları Fluentbit’e, metrikleri Prometheus’a gider. Şifre ve anahtarlarını Vault’tan alır.</p>';
+  dg.pop.innerHTML = h; dg.pop.hidden = false;
+  placePop(dg, id);
+}
+function placePop(dg, id){
+  var r = rel(dg, id), W = dg.el.clientWidth, H = dg.el.clientHeight, pw = dg.pop.offsetWidth, ph = dg.pop.offsetHeight, gap = 18 * unit();
+  var x = r.r + gap; if (x + pw > W) x = r.l - gap - pw; if (x < 0) x = Math.max(0, Math.min(W - pw, r.cx - pw / 2));
+  var y = Math.max(0, Math.min(H - ph, r.cy - ph / 2));
+  dg.pop.style.left = x + 'px'; dg.pop.style.top = y + 'px';
+}
+function clearSel(dg){
+  dg.sel = null; markSel(dg); dg.pop.hidden = true;
+  dg.svg.classList.add('swap'); void dg.svg.offsetWidth;
+  draw(dg, dg.state.edges, dg.state.lit, dg.state.badge);
+  dg.svg.classList.remove('swap');
+}
+function redrawAll(){
+  DGS.forEach(function(dg){
+    if (dg.sel) { var s = dg.sel; selectNode(dg, s); }
+    else draw(dg, dg.state.edges, dg.state.lit, dg.state.badge);
+  });
+}
+
+/* ---------- topology slide ---------- */
+var topoDg = buildDiagram(document.getElementById('topoHost'), false);
+var tabs = document.getElementById('tabs'), mdesc = document.getElementById('mdesc');
+MODES.forEach(function(m, i){
+  var dash = { evt:'6 5', live:'1 5', obs:'3 4', sec:'3 4' }[m.k] || '';
+  tabs.insertAdjacentHTML('beforeend', '<button type="button" class="tab" role="tab" data-i="' + i + '" aria-selected="false">'
+    + '<svg viewBox="0 0 34 10" aria-hidden="true"><line x1="1" y1="5" x2="33" y2="5" stroke="' + KIND[m.k].c + '" stroke-width="3" stroke-linecap="round"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/></svg>'
+    + m.name + '</button>');
+});
+function setMode(i){
+  tabs.querySelectorAll('.tab').forEach(function(t, j){ t.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
+  if (i < 0) {
+    mdesc.textContent = 'Sistem dört katmandan oluşur: kanallar ve dış sistemler, ağ geçitleri, uygulama servisleri, altyapı ve veri.';
+    show(topoDg, [], null, null);
+    return;
+  }
+  var m = MODES[i];
+  mdesc.textContent = m.desc;
+  show(topoDg, m.edges, nodesOf(m.edges, m.extra),
+       m.badge ? { ids:m.extra, text:m.badge, c:KIND[m.k].c } : null);
+}
+tabs.addEventListener('click', function(ev){
+  var t = ev.target.closest('.tab'); if (!t) return;
+  goTo('topo', +t.getAttribute('data-i') + 1);
+});
+
+/* ---------- flow index + flow slides ---------- */
+var deck = document.getElementById('deck'), fgrid = document.getElementById('fgrid');
+var flowViews = {};
+FLOWS.forEach(function(f){
+  if (f.steps) { var mn = 0, sn = 0; f.labels = f.steps.map(function(st){ if (st.sub) return mn + '.' + (++sn); sn = 0; return String(++mn); }); }
+  var ready = !!(f.status && f.steps), doc = f.status === 'doc';
+  var st = doc ? 'TEKNİK DOKÜMANA GÖRE · AÇ' : (ready ? 'AÇ' : 'İŞ AKIŞI HAZIR · TEKNİK BEKLENİYOR');
+  fgrid.insertAdjacentHTML('beforeend', (ready ? '<button type="button"' : '<div') + ' class="fcard' + (doc ? ' doc' : (ready ? ' ready' : '')) + '"' + (ready ? ' data-flow="' + f.key + '"' : '') + '>'
+    + '<span class="no">AKIŞ ' + f.no + '</span><b>' + esc(f.name) + '</b><p>' + esc(f.card) + '</p>'
+    + (ready ? '</button>' : '</div>'));
+  if (!ready) return;
+  var s = document.createElement('section');
+  s.className = 'slide flow'; s.id = 'flow-' + f.key; s.setAttribute('data-key', f.key);
+  var tags = '<span class="tag plain">AKIŞ ' + f.no + '</span>' + (doc ? '<span class="tag plain">' + esc(f.svc) + '</span>' : '');
+  s.innerHTML = '<header class="hd"><div class="hd-l"><div class="ttl">' + tags + '</div>'
+    + '<h1>' + esc(f.name) + '</h1><p class="lead">' + esc(f.lead) + '</p></div><img class="logo" src="data:image/png;base64,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" alt="Ahlatcı Holding"></header>'
+    + '<div class="fbody"><div class="fl-l"><ol class="fsteps' + (f.steps.length > 6 ? ' many' : '') + '">'
+    + f.steps.map(function(st, i){ return '<li' + (st.sub ? ' class="sub"' : '') + '><button type="button" class="fs-btn" data-i="' + i + '"><span>' + f.labels[i] + '</span>' + esc(st.t) + '</button></li>'; }).join('')
+    + '</ol><div class="fdet" aria-live="polite"></div></div><div class="fl-r"><div class="dg-host"></div></div></div>';
+  deck.appendChild(s);
+  var dg = buildDiagram(s.querySelector('.dg-host'), true);
+  flowViews[f.key] = { f:f, el:s, dg:dg, btns:s.querySelectorAll('.fs-btn'), det:s.querySelector('.fdet') };
+  s.querySelector('.fsteps').addEventListener('click', function(ev){
+    var b = ev.target.closest('.fs-btn'); if (b) goTo(s.id, +b.getAttribute('data-i'));
+  });
+});
+fgrid.addEventListener('click', function(ev){
+  var c = ev.target.closest('[data-flow]'); if (c) goTo('flow-' + c.getAttribute('data-flow'), 0);
+});
+function setFlowStep(v, k){
+  var st = v.f.steps[k];
+  v.btns.forEach(function(b, i){ b.classList.toggle('on', i === k); b.classList.toggle('done', i < k); });
+  v.det.innerHTML = '<div class="krow"><span class="k">ADIM ' + v.f.labels[k] + '</span>' + (st.state ? '<span class="state">' + esc(st.state) + '</span>' : '') + '</div><h3>' + esc(st.t) + '</h3><p>' + esc(st.d) + '</p>'
+    + (st.tech ? '<div class="tech">' + st.tech.map(function(t){ return '<span>' + esc(t) + '</span>'; }).join('') + '</div>' : '')
+    + '<ul class="hops">' + st.hops.map(function(h){
+        return '<li><i style="background:' + KIND[h[2]].c + '"></i>' + esc(nm(h[0])) + ' <span class="ar">→</span> ' + esc(nm(h[1])) + '<em>' + KIND[h[2]].label.toUpperCase() + '</em></li>';
+      }).join('') + '</ul>'
+    + (v.f.note && st.hops.some(function(h){ return h[0] === 'horse' || h[1] === 'horse'; }) ? '<p class="note">' + v.f.note + '</p>' : '');
+  show(v.dg, st.hops, nodesOf(st.hops), null);
+}
+
+/* ---------- cover network ---------- */
+(function(){
+  var svg = document.getElementById('coverNet');
+  var rows = [{ y:70, n:4, h:62 }, { y:230, n:4, h:70 }, { y:400, n:6, h:56 }, { y:520, n:6, h:48, only:[1,3,4] }, { y:680, n:6, h:44 }];
+  var X0 = 40, X1 = 1000, out = '', P = [];
+  rows.forEach(function(r, ri){
+    var g = 22, w = (X1 - X0 - g * (r.n - 1)) / r.n; P[ri] = [];
+    for (var i = 0; i < r.n; i++) {
+      if (r.only && r.only.indexOf(i) < 0) { P[ri][i] = null; continue; }
+      var x = X0 + i * (w + g);
+      out += '<rect x="' + x + '" y="' + r.y + '" width="' + w + '" height="' + r.h + '" rx="12" fill="#FFFFFF" fill-opacity="' + (ri === 1 ? .2 : .11) + '" stroke="#FFFFFF" stroke-opacity=".28"/>';
+      P[ri][i] = { cx:x + w / 2, t:r.y, b:r.y + r.h };
+    }
+  });
+  var L = [[0,0,1,0],[0,1,1,1],[0,2,1,1],[0,3,1,3],[1,0,2,2],[1,0,2,4],[1,1,2,0],[1,1,2,1],[1,1,2,3],[1,3,2,2],[2,2,4,0],[2,4,4,0],[2,1,3,1],[2,3,3,3],[3,4,4,3],[3,1,4,3],[1,2,0,1],[1,2,0,2]];
+  L.forEach(function(l, i){
+    var a = P[l[0]][l[1]], b = P[l[2]][l[3]]; if (!a || !b) return;
+    var up = l[2] < l[0], y1 = up ? a.t : a.b, y2 = up ? b.b : b.t, my = (y1 + y2) / 2;
+    var d = 'M' + a.cx + ' ' + y1 + ' C' + a.cx + ' ' + my + ' ' + b.cx + ' ' + my + ' ' + b.cx + ' ' + y2;
+    out += '<path d="' + d + '" fill="none" stroke="#FFFFFF" stroke-opacity=".38" stroke-width="2"' + (i % 3 === 1 ? ' stroke-dasharray="7 6"' : '') + '/>';
+    if (!reduce) out += '<circle r="5" fill="#FFFFFF"><animateMotion dur="' + (2 + (i % 4) * .4) + 's" repeatCount="indefinite" begin="-' + (i * .37 % 2).toFixed(2) + 's" path="' + d + '"/></circle>';
+  });
+  svg.innerHTML = out;
+})();
+
+/* ---------- navigation ---------- */
+var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+var steps = [];
+slides.forEach(function(s, si){
+  var n = s.id === 'topo' ? MODES.length + 1 : (s.id.indexOf('flow-') === 0 ? flowViews[s.getAttribute('data-key')].f.steps.length : 1);
+  for (var k = 0; k < n; k++) steps.push({ s:si, k:k });
+});
+var seen = {};
+var cur = -1, bar = document.getElementById('bar'), count = document.getElementById('count');
+function enter(si, k){
+  var s = slides[si];
+  if (s.id === 'topo') setMode(k - 1);
+  else if (s.id.indexOf('flow-') === 0) {
+    var key = s.getAttribute('data-key');
+    setFlowStep(flowViews[key], k);
+    if (!seen[key]) { seen[key] = 1; var c = fgrid.querySelector('[data-flow="' + key + '"]'); if (c) c.classList.add('seen'); }
+  }
+}
+function go(i){
+  i = Math.max(0, Math.min(steps.length - 1, i));
+  var st = steps[i], prevS = cur >= 0 ? steps[cur].s : -1;
+  cur = i;
+  if (st.s !== prevS) {
+    if (document.activeElement && document.activeElement.blur && slides[prevS] && slides[prevS].contains(document.activeElement)) document.activeElement.blur();
+    slides.forEach(function(s, j){ s.classList.toggle('is-on', j === st.s); s.setAttribute('aria-hidden', j === st.s ? 'false' : 'true'); });
+    var key = slides[st.s].getAttribute('data-key');
+    if (location.hash.slice(1) !== key) { try { history.replaceState(null, '', '#' + key); } catch (e) {} }
+  }
+  enter(st.s, st.k);
+  count.textContent = (st.s + 1) + ' / ' + slides.length;
+  bar.style.width = (steps.length > 1 ? (i / (steps.length - 1)) * 100 : 100) + '%';
+}
+function goTo(slideId, k){
+  var si = slides.findIndex(function(s){ return s.id === slideId; });
+  for (var i = 0; i < steps.length; i++) if (steps[i].s === si && steps[i].k === k) { go(i); return; }
+}
+/* Flows end on the flow list, so the presenter picks which flow comes next. */
+function isFlow(s){ return s.id.indexOf('flow-') === 0; }
+function next(){
+  var s = slides[steps[cur].s], k = steps[cur].k;
+  if (isFlow(s) && k === flowViews[s.getAttribute('data-key')].f.steps.length - 1) { goTo('flowIndex', 0); return; }
+  if (s.id === 'flowIndex') {
+    var f = FLOWS.filter(function(x){ return flowViews[x.key] && !seen[x.key]; })[0];
+    if (f) goTo('flow-' + f.key, 0);
+    return;
+  }
+  go(cur + 1);
+}
+function prev(){
+  var s = slides[steps[cur].s], k = steps[cur].k;
+  if (isFlow(s) && k === 0) { goTo('flowIndex', 0); return; }
+  go(cur - 1);
+}
+function toggleFs(){
+  try {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else { var p = document.documentElement.requestFullscreen && document.documentElement.requestFullscreen(); if (p && p.catch) p.catch(function(){}); }
+  } catch (e) {}
+}
+document.addEventListener('keydown', function(e){
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var k = e.key;
+  if (k === 'Escape') { DGS.forEach(function(dg){ if (dg.sel) clearSel(dg); }); return; }
+  if (k === 'ArrowRight' || k === 'PageDown' || k === ' ') { e.preventDefault(); next(); }
+  else if (k === 'ArrowLeft' || k === 'PageUp') { e.preventDefault(); prev(); }
+  else if (k === 'Home') go(0);
+  else if (k === 'End') goTo('flowIndex', 0);
+  else if (k === 'f' || k === 'F') toggleFs();
+});
+document.getElementById('next').addEventListener('click', next);
+document.getElementById('prev').addEventListener('click', prev);
+document.getElementById('fs').addEventListener('click', toggleFs);
+var hud = document.getElementById('hud'), hideT;
+function poke(){ hud.classList.add('show'); clearTimeout(hideT); hideT = setTimeout(function(){ hud.classList.remove('show'); }, 2200); }
+document.addEventListener('mousemove', poke);
+document.addEventListener('touchstart', poke, { passive:true });
+
+var rz;
+addEventListener('resize', function(){ cancelAnimationFrame(rz); rz = requestAnimationFrame(redrawAll); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(redrawAll);
+
+var start = 0, h = location.hash.slice(1);
+if (h) { var si = slides.findIndex(function(s){ return s.getAttribute('data-key') === h; }); if (si >= 0) start = steps.findIndex(function(st){ return st.s === si; }); }
+/* draw every diagram once so the first visit to a slide is ready */
+setMode(0); var firstFlow = flowViews[FLOWS[0].key]; if (firstFlow) setFlowStep(firstFlow, 0);
+go(start);
+addEventListener('hashchange', function(){
+  var key = location.hash.slice(1), si = slides.findIndex(function(s){ return s.getAttribute('data-key') === key; });
+  if (si >= 0 && steps[cur].s !== si) go(steps.findIndex(function(st){ return st.s === si; }));
+});
+})();
+</script>
+
+</body>
+</html>
